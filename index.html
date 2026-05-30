@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixel Broccoli — The Podcast</title>
+  <meta name="description" content="Pixel Broccoli — tech, design, AI & the weird corners of the internet. Two humans. One AI. Zero filler.">
+
+  <!-- Fonts: local Retro Gaming + VT323 from Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+  <style>
+    @font-face {
+      font-family: 'RetroGaming';
+      src: url('static/fonts/Retro%20Gaming.ttf') format('truetype'),
+           url('static/fonts/Retro Gaming.ttf')   format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: block;
+    }
+
+    :root {
+      --bg:       #07030F;
+      --surface:  #0d0820;
+      --surface2: #130f2e;
+      --surface3: #1e1650;
+      --accent:   #08D7A9;
+      --purple:   #C42DD7;
+      --purple2:  #e040f5;
+      --magenta:  #FF00FF;
+      --text:     #e8d8ff;
+      --text-dim: #5a4a7a;
+      --font-pixel: 'RetroGaming', monospace;
+      --font-vt:    'VT323', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-vt);
+      font-size: 22px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 3px; }
+
+    /* ─────────────────── NAV ─────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center;
+      padding: 0 48px;
+      height: 68px;
+      background: rgba(7,3,15,0.88);
+      border-bottom: 1px solid rgba(196,45,215,0.3);
+      box-shadow: 0 0 20px rgba(196,45,215,0.1);
+      backdrop-filter: blur(8px);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 12px;
+      text-decoration: none;
+    }
+    .nav-logo img {
+      height: 34px; width: auto;
+      image-rendering: pixelated;
+      filter: drop-shadow(0 0 8px rgba(8,215,169,0.6));
+    }
+    .nav-links {
+      margin-left: auto;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .nav-links a {
+      font-family: var(--font-pixel);
+      font-size: 0.62rem;
+      color: var(--text-dim);
+      text-decoration: none;
+      padding: 10px 18px;
+      border: 1px solid transparent;
+      border-radius: 2px;
+      transition: color .15s, border-color .15s, background .15s;
+      letter-spacing: 0.04em;
+    }
+    .nav-links a:hover {
+      color: var(--accent);
+      border-color: rgba(8,215,169,0.25);
+      background: rgba(8,215,169,0.05);
+    }
+
+    /* ─────────────────── HERO ─────────────────── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 80px 24px 60px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('static/assets/PixelBroccoli-Background.jpg');
+      background-size: cover;
+      background-position: center top;
+      background-repeat: no-repeat;
+      opacity: 0.55;
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom,
+        rgba(7,3,15,0.1) 0%,
+        rgba(7,3,15,0.0) 40%,
+        rgba(7,3,15,0.7) 80%,
+        rgba(7,3,15,1) 100%
+      );
+    }
+    /* scanlines */
+    #hero::after {
+      content: '';
+      position: absolute; inset: 0; z-index: 1;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.07) 2px,
+        rgba(0,0,0,0.07) 4px
+      );
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 0;
+    }
+    .hero-logo {
+      width: clamp(160px, 26vw, 260px);
+      height: auto;
+      image-rendering: pixelated;
+      filter: drop-shadow(0 0 30px rgba(196,45,215,0.7)) drop-shadow(0 0 60px rgba(8,215,169,0.3));
+      animation: hero-float 4s ease-in-out infinite;
+      margin-bottom: 28px;
+    }
+    @keyframes hero-float {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-10px); }
+    }
+    .hero-wordmark {
+      width: clamp(280px, 60vw, 560px);
+      height: auto;
+      image-rendering: pixelated;
+      filter: drop-shadow(0 0 16px rgba(196,45,215,0.5));
+      margin-bottom: 20px;
+    }
+    .hero-tagline {
+      font-family: var(--font-pixel);
+      font-size: clamp(0.6rem, 1.6vw, 0.85rem);
+      color: var(--text);
+      letter-spacing: 0.14em;
+      text-shadow: 0 0 12px rgba(196,45,215,0.5);
+      margin-bottom: 44px;
+      opacity: 0.85;
+    }
+    .hero-btns {
+      display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
+    }
+    .btn {
+      font-family: var(--font-pixel);
+      font-size: 0.7rem;
+      padding: 16px 28px;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      background: rgba(8,215,169,0.06);
+      cursor: pointer;
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-shadow: 0 0 8px rgba(8,215,169,0.5);
+      box-shadow: 0 0 12px rgba(8,215,169,0.2), inset 0 0 12px rgba(8,215,169,0.04);
+      transition: all .15s;
+      display: inline-block;
+    }
+    .btn:hover {
+      background: rgba(8,215,169,0.15);
+      box-shadow: 0 0 28px rgba(8,215,169,0.5);
+    }
+    .btn-purple {
+      border-color: var(--purple);
+      color: var(--purple2);
+      background: rgba(196,45,215,0.06);
+      text-shadow: 0 0 8px rgba(196,45,215,0.5);
+      box-shadow: 0 0 12px rgba(196,45,215,0.2), inset 0 0 12px rgba(196,45,215,0.04);
+    }
+    .btn-purple:hover {
+      background: rgba(196,45,215,0.15);
+      box-shadow: 0 0 28px rgba(196,45,215,0.5);
+    }
+
+    /* ─────────────────── SECTION COMMON ─────────────────── */
+    .section-wrap {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 110px 40px;
+    }
+    .section-eyebrow {
+      font-family: var(--font-pixel);
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-family: var(--font-pixel);
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      line-height: 1.7;
+      margin-bottom: 52px;
+    }
+    .section-title.teal  { color: var(--accent);  text-shadow: 0 0 14px rgba(8,215,169,0.4); }
+    .section-title.purple{ color: var(--purple2); text-shadow: 0 0 14px rgba(196,45,215,0.4); }
+    .px-divider {
+      width: 100%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--purple), var(--accent), transparent);
+      opacity: 0.25;
+    }
+
+    /* ─────────────────── ABOUT ─────────────────── */
+    #about { background: var(--surface); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: center;
+    }
+    @media (max-width: 680px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .about-img-col { display: none; }
+    }
+    .about-text p {
+      font-family: var(--font-vt);
+      font-size: 1.6rem;
+      color: var(--text);
+      opacity: 0.85;
+      margin-bottom: 22px;
+      line-height: 1.8;
+    }
+    .about-text p:last-child { margin-bottom: 0; }
+    .about-img-col {
+      display: flex; align-items: center; justify-content: center;
+    }
+    .about-img-col img {
+      width: 100%; max-width: 320px;
+      height: auto;
+      image-rendering: pixelated;
+      filter: drop-shadow(0 0 24px rgba(196,45,215,0.45));
+      animation: about-glow 5s ease-in-out infinite;
+    }
+    @keyframes about-glow {
+      0%,100% { filter: drop-shadow(0 0 24px rgba(196,45,215,0.45)); }
+      50%      { filter: drop-shadow(0 0 40px rgba(196,45,215,0.75)) drop-shadow(0 0 12px rgba(8,215,169,0.3)); }
+    }
+
+    /* ─────────────────── HOSTS ─────────────────── */
+    #hosts { background: var(--bg); }
+    .hosts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 36px;
+    }
+    @media (max-width: 680px) {
+      .hosts-grid { grid-template-columns: 1fr; }
+    }
+    .host-card {
+      background: var(--surface);
+      border: 1px solid var(--surface3);
+      padding: 40px 32px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .host-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--purple));
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .host-card:hover { border-color: rgba(196,45,215,0.4); box-shadow: 0 0 24px rgba(196,45,215,0.1); }
+    .host-card:hover::before { opacity: 1; }
+    .host-card.brocc-card { border-color: rgba(8,215,169,0.2); }
+    .host-card.brocc-card:hover { border-color: rgba(8,215,169,0.5); box-shadow: 0 0 24px rgba(8,215,169,0.12); }
+    .host-card.brocc-card::before { background: linear-gradient(90deg, var(--purple), var(--accent)); }
+
+    .host-photo-wrap {
+      width: 160px; height: 160px;
+      border-radius: 0;
+      overflow: hidden;
+      margin: 0 auto 24px;
+      border: 2px solid var(--surface3);
+      position: relative;
+    }
+    .host-photo-wrap::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(196,45,215,0.15), transparent);
+      pointer-events: none;
+    }
+    .host-photo-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: grayscale(30%);
+      transition: filter .2s;
+    }
+    .host-card:hover .host-photo-wrap img { filter: grayscale(0%); }
+
+    .host-brocc-wrap {
+      width: 160px; height: 160px;
+      margin: 0 auto 24px;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid rgba(8,215,169,0.3);
+      background: rgba(8,215,169,0.04);
+    }
+    .host-brocc-wrap svg {
+      width: 96px; height: 96px;
+      image-rendering: pixelated;
+      filter: drop-shadow(0 0 12px rgba(8,215,169,0.6));
+      animation: brocc-bob 3s ease-in-out infinite;
+    }
+    @keyframes brocc-bob {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-5px); }
+    }
+
+    .host-name {
+      font-family: var(--font-pixel);
+      font-size: 0.75rem;
+      color: var(--text);
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
+    }
+    .host-role {
+      font-family: var(--font-pixel);
+      font-size: 0.52rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      margin-bottom: 18px;
+      text-shadow: 0 0 8px rgba(8,215,169,0.4);
+    }
+    .host-card.brocc-card .host-role { color: var(--purple2); text-shadow: 0 0 8px rgba(196,45,215,0.4); }
+    .host-bio {
+      font-family: var(--font-vt);
+      font-size: 1.4rem;
+      color: var(--text);
+      opacity: 0.75;
+      line-height: 1.7;
+    }
+
+    /* ─────────────────── EPISODES ─────────────────── */
+    #episodes { background: var(--surface); }
+    .ep-loading {
+      text-align: center;
+      padding: 56px 0;
+      display: flex; flex-direction: column; align-items: center; gap: 16px;
+      font-family: var(--font-pixel); font-size: 0.48rem;
+      color: var(--text-dim);
+    }
+    .ep-spinner {
+      width: 28px; height: 28px;
+      border: 3px solid var(--surface3);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .ep-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 28px;
+    }
+    .ep-card {
+      background: var(--surface2);
+      border: 1px solid var(--surface3);
+      padding: 0;
+      transition: border-color .15s, box-shadow .15s;
+      display: flex; flex-direction: column;
+    }
+    .ep-card:hover {
+      border-color: rgba(196,45,215,0.4);
+      box-shadow: 0 0 20px rgba(196,45,215,0.08);
+    }
+    .ep-thumb-wrap {
+      width: 100%; aspect-ratio: 1/1;
+      overflow: hidden;
+      position: relative;
+      background: var(--surface3);
+    }
+    .ep-thumb-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .3s;
+    }
+    .ep-card:hover .ep-thumb-wrap img { transform: scale(1.04); }
+    .ep-thumb-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, var(--surface2), var(--surface3));
+    }
+    .ep-thumb-placeholder svg { width: 60px; height: 60px; opacity: 0.3; }
+
+    .ep-body { padding: 24px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+    .ep-num {
+      font-family: var(--font-pixel);
+      font-size: 0.52rem;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      opacity: 0.7;
+    }
+    .ep-title {
+      font-family: var(--font-pixel);
+      font-size: 0.65rem;
+      color: var(--text);
+      line-height: 1.8;
+    }
+    .ep-date {
+      font-family: var(--font-vt);
+      font-size: 1.2rem;
+      color: var(--text-dim);
+    }
+    .ep-desc {
+      font-family: var(--font-vt);
+      font-size: 1.35rem;
+      color: var(--text);
+      opacity: 0.65;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      flex: 1;
+    }
+    .ep-listen {
+      font-family: var(--font-pixel);
+      font-size: 0.58rem;
+      padding: 12px 18px;
+      border: 1px solid var(--purple);
+      color: var(--purple2);
+      background: rgba(196,45,215,0.04);
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 4px;
+      transition: all .15s;
+      letter-spacing: 0.07em;
+      align-self: flex-start;
+    }
+    .ep-listen:hover {
+      background: rgba(196,45,215,0.12);
+      box-shadow: 0 0 14px rgba(196,45,215,0.3);
+    }
+
+    /* ─────────────────── LISTEN / PLATFORMS ─────────────────── */
+    #listen {
+      background: var(--bg);
+      text-align: center;
+    }
+    .platforms {
+      display: flex; flex-wrap: wrap;
+      justify-content: center; gap: 18px;
+      margin-top: 40px;
+    }
+    .platform-btn {
+      font-family: var(--font-pixel);
+      font-size: 0.65rem;
+      padding: 14px 22px;
+      border: 1px solid var(--surface3);
+      color: var(--text-dim);
+      background: var(--surface);
+      text-decoration: none;
+      transition: all .15s;
+      letter-spacing: 0.05em;
+    }
+    .platform-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 0 16px rgba(8,215,169,0.2);
+    }
+
+    /* ─────────────────── FOOTER ─────────────────── */
+    footer {
+      background: rgba(7,3,15,0.98);
+      border-top: 1px solid rgba(196,45,215,0.15);
+      padding: 40px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .footer-left {
+      display: flex; align-items: center; gap: 16px;
+    }
+    .footer-left img {
+      height: 48px; width: auto;
+      image-rendering: pixelated;
+      filter: drop-shadow(0 0 8px rgba(8,215,169,0.4));
+      opacity: 0.75;
+    }
+    .footer-copy {
+      font-family: var(--font-pixel);
+      font-size: 0.58rem;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+    }
+    .footer-right {
+      font-family: var(--font-pixel);
+      font-size: 0.58rem;
+      color: var(--text-dim);
+      letter-spacing: 0.06em;
+    }
+    .footer-right a { color: var(--accent); text-decoration: none; }
+    .footer-right a:hover { text-shadow: 0 0 8px rgba(8,215,169,0.6); }
+
+    /* ─────────────────── TICKER ─────────────────── */
+    .ticker-wrap {
+      width: 100%;
+      background: var(--purple);
+      padding: 10px 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .ticker-track {
+      display: flex;
+      white-space: nowrap;
+      animation: ticker 22s linear infinite;
+    }
+    .ticker-track span {
+      font-family: var(--font-pixel);
+      font-size: 0.55rem;
+      color: #000;
+      padding: 0 40px;
+      letter-spacing: 0.1em;
+    }
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════ NAV ══════════════════ -->
+<nav>
+  <a class="nav-logo" href="#hero">
+    <img src="static/assets/PixelBroccoli-Logo-Horizontal.png" alt="Pixel Broccoli" style="height:38px;width:auto;image-rendering:pixelated;">
+  </a>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#hosts">Hosts</a>
+    <a href="#episodes">Episodes</a>
+    <a href="#listen">Listen</a>
+  </div>
+</nav>
+
+
+<!-- ══════════════════ HERO ══════════════════ -->
+<div id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <!-- Brocc character floats above the logo -->
+    <svg class="hero-logo" viewBox="0 0 1041 904" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M443.5 8.52317C463.497 8.03405 485.362 8.45966 505.482 8.45824L613.992 8.519C613.967 16.9861 614.023 25.4533 614.155 33.9194C622.206 34.2152 631.315 34.037 639.448 34.0622L639.539 59.4321L664.934 59.4972C664.944 68.0776 664.853 76.8405 665.193 85.3995L690.923 85.4758C691.025 93.9443 691.056 102.413 691.01 110.882C699.443 110.996 707.87 111.005 716.303 110.909C716.862 104.159 716.476 92.752 716.542 85.4783C758.35 84.9038 802.572 85.31 844.415 85.4982C844.374 93.9499 844.461 102.402 844.669 110.851C852.619 111.176 861.926 110.996 869.998 111.022C870.008 119.463 870.074 127.903 870.186 136.343C878.563 136.483 887.102 136.452 895.494 136.5L895.621 161.803C902.092 162.391 914.078 162.063 921.001 162.069L921.118 187.41L946.451 187.555L946.487 255.851C952.165 255.97 957.842 256.055 963.52 256.104C963.291 264.174 963.566 273.064 963.444 281.299C969.045 281.546 975.338 281.471 980.99 281.518C980.98 289.979 981.031 298.44 981.138 306.9C989.494 307.154 998.085 307.065 1006.46 307.072L1006.54 332.443L1031.93 332.507C1032.53 386.027 1032.12 441.053 1031.94 494.641C1023.92 494.935 1014.65 494.731 1006.53 494.75C1006.39 503.101 1006.47 511.706 1006.44 520.08L981.031 520.136L981.006 546.035L946.512 546.122L946.406 571.62C941.043 571.854 935.004 571.808 929.591 571.879C929.245 583.624 929.535 596.742 929.54 608.568L929.444 691.016L912.522 691.148L912.38 699.619C905.101 699.868 894.234 699.934 887.026 699.609L886.97 716.626C879.452 716.961 869.012 716.88 861.535 716.534L861.453 742.053C819.427 742.897 775.784 741.758 733.514 742.226L733.428 836.012C725.361 836.068 716.008 836.363 708.043 836.017L708.002 844.574C700.993 845.077 689.958 844.681 682.613 844.665C682.43 852.999 682.511 861.657 682.475 870.011L656.613 870.123C656.405 878.548 656.547 887.171 656.379 895.672C646.6 895.916 636.362 895.819 626.562 895.748C551.456 895.199 476.136 896.567 401.059 895.692L400.949 870.24C394.606 869.64 381.829 870.011 375.06 869.991L374.969 844.752C366.945 844.106 358.051 845.184 349.426 844.477L349.502 836.21C341.555 835.859 332.078 836.053 323.994 835.992C324.318 804.814 323.568 773.312 324.086 742.155C279.077 741.916 232.35 742.917 187.534 741.977L187.467 716.738C181.701 716.219 168.711 716.819 162.085 716.682C162.091 708.216 162.047 699.746 161.953 691.28C156.216 690.645 142.752 691.006 136.453 690.975L136.402 682.8C130.753 682.82 125.105 682.754 119.459 682.601L119.451 571.808C108.673 571.65 96.0077 572.225 85.4426 571.488C85.4681 563.088 85.4467 554.689 85.3796 546.29C78.8663 545.684 66.453 546.02 59.5056 546.02L59.4746 520.166L34.0359 520.069L33.9721 494.738C25.9619 494.387 16.7789 494.807 8.47168 494.588L8.55433 324.067C16.3502 323.727 26.0221 323.936 33.9607 323.904C34.2296 315.801 34.0403 306.66 34.0577 298.477L59.3887 298.425C59.7175 290.612 59.499 281.013 59.5178 273.072C67.9083 272.852 76.9855 273.028 85.4274 273.033L85.4996 256.127C95.5416 255.6 109.186 255.959 119.4 256.055C119.863 222.129 119.383 187.532 119.508 153.518L136.373 153.473L136.569 145.07C144.304 144.711 154.045 144.944 161.924 144.911C162.346 137.658 162.055 127.702 162.062 120.249L162.379 119.699C165.274 119.157 183.355 119.428 187.392 119.432C187.79 111.852 187.515 101.86 187.544 94.0948C195.742 93.8828 204.681 93.9967 212.93 93.9616C213.211 85.73 213.011 76.3834 213.028 68.0654C254.805 67.3149 299.043 67.9546 341.012 68.0639C340.995 76.6839 341.044 85.3034 341.159 93.923C349.142 94.2229 358.325 94.0175 366.398 94.0282L366.526 85.4758L392.368 85.4082C392.714 77.4196 392.49 67.6561 392.502 59.5008L417.843 59.4469C418.338 52.4269 417.999 41.4554 418.049 34.0459L443.285 33.9821C443.835 27.257 443.483 15.5796 443.5 8.52317Z" fill="black"/>
+      <path d="M784.471 588.52L903.937 588.5L903.921 673.541L886.99 673.516L886.965 690.97L861.534 690.986V716.534C819.254 715.818 775.886 716.662 733.488 716.433V673.546L750.506 673.536L750.501 639.542L767.519 639.537L767.514 614.069L784.466 614.044L784.481 597.413L784.471 588.52Z" fill="#6EBD43"/>
+      <path d="M443.525 34.0482L614.007 34.0576L614.027 59.5038L639.483 59.5008L639.468 85.4819L664.944 85.4799L664.969 213.031L682.536 213.027V179L691.091 179.019L690.999 136.49L716.542 136.526V111.02L799.618 110.994C814.166 110.996 829.999 110.675 844.466 111.045L844.46 136.521L869.982 136.507L870.033 162.064C878.481 162.075 887.102 162.002 895.534 162.104V187.552L921.005 187.546L920.99 255.955C909.655 255.874 898.315 255.883 886.98 255.983L887.005 281.558L955.001 281.542L955.036 307.05L981 307.069L981.021 332.519L989.453 332.508L1006.48 332.515L1006.47 468.928C998.018 468.849 989.448 468.94 980.995 468.952L980.985 494.506L955.026 494.47L955.001 520.034L929.56 520.049L929.509 546.005L886.98 546.02L886.97 562.941L776.089 562.946L776.048 545.995L742.079 546.02L742.048 520.024L716.552 520.029L716.547 494.487L648.023 494.469L648.002 520.034L614.002 520.044L613.982 546.015L452.008 546.02L451.968 520.024L401.057 520.039L401.035 494.476L341.021 494.465L341.002 520.034L323.926 520.044L323.901 546.01L281.553 546.03L281.524 562.931L162.083 562.951L162.05 545.99L85.4647 546.005L85.4718 494.483L34.0352 494.463L34.0508 323.993L59.5017 323.991L59.4967 298.486L85.4668 298.488L85.4632 281.554L145.028 281.576L144.973 170.463L162.089 170.506L162.067 144.991L187.524 144.979L187.535 119.498L213.023 119.511L213.008 94.0445L341.014 94.0547L341.045 119.5L366.498 119.502L366.486 144.975L392.465 144.987L392.479 85.4778L418.049 85.4956C418.032 77.0663 417.819 67.8595 418.031 59.4962L443.516 59.5008L443.525 34.0482Z" fill="#1CB25C"/>
+      <path d="M34.0508 323.993L59.5017 323.991L59.4646 375.022C78.3089 375.116 100.784 375.632 119.45 374.971L119.434 349.367C127.929 349.458 136.424 349.475 144.919 349.42L144.927 332.491L153.508 332.479L153.505 366.536L128.077 366.553L128.011 435.084C136.139 435.086 145.489 435.309 153.521 434.919L153.49 460.519C173.214 460.523 193.273 460.713 212.968 460.511L212.98 392.48L238.971 392.465L238.93 409.467C252.872 409.46 267.69 409.711 281.56 409.362L281.527 426.532L290.065 426.486L290.013 435.083C295.289 435.08 301.89 435.231 307.023 434.841L306.986 452.024L323.992 451.954L323.935 460.555L435.012 460.508L435.011 435.098L443.393 435.002L443.443 409.38L451.915 409.408L451.926 401.067L460.474 401.042L460.482 366.504L486 366.482L485.945 392.528L494.535 392.47L494.523 401.038C500.125 401.04 505.892 401.11 511.478 401.003L511.437 409.429C517.257 409.423 523.306 409.496 529.101 409.359L529.04 417.999L537.538 417.92L537.442 426.518L554.531 426.492L554.516 435.017C560.148 435.058 565.881 435.182 571.498 434.919L571.422 451.986C602.357 452.019 634.049 452.381 664.918 451.981L664.939 443.388L682.521 443.404L682.49 435.071C693.46 435.07 705.567 435.317 716.445 434.996C716.43 429.466 716.526 423.468 716.369 417.977L733.458 417.967L733.463 409.377L742.028 409.416L742.038 401.063C747.583 401.046 753.449 401.122 758.964 400.972L758.934 426.573L767.524 426.482L767.509 443.431L776.079 443.374L776.028 460.562L792.995 460.487L792.959 469.05C809.25 469.063 828.322 469.562 844.389 468.921L844.415 460.508L861.509 460.51L861.473 443.392L886.975 443.416C886.98 415.279 887.422 385.997 886.959 357.963C895.468 357.995 903.982 357.985 912.491 357.931L912.435 366.533L921.036 366.476L921.005 392.531L929.565 392.471L929.545 401.037C937.973 401.043 946.609 401.151 955.021 401.034L955.016 375.057C966.046 375.069 978.565 375.356 989.479 374.973L989.453 332.508L1006.48 332.515L1006.47 468.928C998.018 468.849 989.448 468.94 980.995 468.952L980.985 494.506L955.026 494.47L955.001 520.034L929.56 520.049L929.509 546.005L886.98 546.02L886.97 562.941L776.089 562.946L776.048 545.995L742.079 546.02L742.048 520.024L716.552 520.029L716.547 494.487L648.023 494.469L648.002 520.034L614.002 520.044L613.982 546.015L452.008 546.02L451.968 520.024L401.057 520.039L401.035 494.476L341.021 494.465L341.002 520.034L323.926 520.044L323.901 546.01L281.553 546.03L281.524 562.931L162.083 562.951L162.05 545.99L85.4647 546.005L85.4718 494.483L34.0352 494.463L34.0508 323.993Z" fill="#069458"/>
+      <path d="M392.465 144.987L417.971 144.935L418.044 170.504L392.461 170.484L392.465 144.987Z" fill="black"/>
+      <path d="M673.498 520.064H690.938L690.958 546.035L716.526 546.045L716.506 571.498L750.486 571.508L750.455 613.988L724.943 614.013L724.923 664.999L708.017 665.015L707.992 818.532L682.556 818.517L682.505 844.498H656.547C656.369 852.826 656.486 861.586 656.46 869.95L401.03 869.965L401.032 844.498L375.055 844.493L375.052 818.517L349.523 818.496L349.558 682.444L332.469 682.423L332.488 613.983C324.063 613.891 315.461 613.978 307.022 613.983L307.019 571.488H332.472L332.473 546.045L349.531 546.03V520.064L392.466 520.069L392.453 546.03L417.935 546.04L417.962 571.493L639.478 571.488V546.045L673.498 546.03V520.064Z" fill="#6EBD43"/>
+      <path d="M443.537 708.003C463.133 707.627 483.616 707.916 503.267 707.916L614.023 707.906L614.033 725.03L605.463 725.025V741.982L597.025 741.992L597.076 759.055L588.536 759.05L588.506 767.515L579.997 767.505L580.012 775.986L563.045 775.966L563.081 784.517L545.981 784.507L545.997 793.069L519.992 793.059V784.517L494.522 784.512L494.532 776.001L477.447 775.976L477.461 767.566L469.034 767.525L469.006 759.05H460.502L460.511 742.022L451.954 742.002L451.94 725.025H443.468L443.537 708.003Z" fill="black"/>
+      <path d="M460.514 725.071L596.898 725.041L596.837 733.542L588.511 733.506L588.531 750.467L579.956 750.447L579.931 758.989L571.874 759.024C571.859 760.997 571.935 765.771 571.584 767.49L554.521 767.459L554.511 775.925L503.075 775.94L503.083 767.531L486.022 767.429L485.993 759.05C483.158 759.004 480.324 758.984 477.489 758.984L477.507 750.462L469.105 750.473L469.098 733.526L460.529 733.491L460.514 725.071Z" fill="#420C1E"/>
+      <path d="M511.422 742.022C522.95 741.941 534.478 741.931 546.007 741.987L545.991 750.483L563.065 750.488L563.075 759.04L571.346 759.024C571.356 761.206 571.259 765.497 571.584 767.49L554.521 767.459L554.511 775.925L503.075 775.94L503.083 767.531L486.022 767.429L485.993 759.05L494.559 759.019L494.511 750.488L511.493 750.483L511.422 742.022Z" fill="#CC3465"/>
+      <path d="M409.553 630.985L443.548 630.965L443.489 639.496L460.528 639.527L460.501 647.926L469.051 647.901L469.075 665.035L460.502 665.025L460.509 656.493L443.479 656.473L443.498 648.404C440.796 647.575 413.84 648.017 409.535 648.053L409.548 656.468L401.033 656.458L401.041 665.035L383.96 665.03L383.989 656.447L392.45 656.458L392.474 647.997L401 647.931L401.019 639.516L409.488 639.532L409.553 630.985Z" fill="black"/>
+      <path d="M614.001 630.98L648.047 630.965V639.511L656.562 639.527L656.495 647.916L664.984 647.901L664.989 656.447L673.508 656.452L673.498 665.02L656.49 665.025L656.516 656.488L648.022 656.468L648.007 648.053C636.804 647.89 625.25 648.033 614.017 648.033L614.037 656.473L597.045 656.463L597.065 665.03L588.525 665.025L588.546 647.997L596.928 647.936L596.989 639.516L613.986 639.537L614.001 630.98Z" fill="black"/>
+      <path d="M144.979 571.493H161.988L162.038 588.495L281.534 588.561L281.523 639.542H306.985L307 690.996L323.938 691.001L323.914 716.463L187.51 716.438L187.538 690.965L162.055 690.975L162.05 664.984L144.995 665.004L144.979 571.493Z" fill="#6EBD43"/>
+    </svg>
+
+    <p class="hero-tagline">TWO HUMANS. ONE AI. ZERO FILLER.</p>
+
+    <div class="hero-btns">
+      <a href="#episodes" class="btn">▶ LATEST EPISODES</a>
+      <a href="#listen"   class="btn btn-purple">♫ LISTEN NOW</a>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════ TICKER ══════════════════ -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span>TECH ✦ DESIGN ✦ AI ✦ THE WEIRD CORNERS OF THE INTERNET ✦</span>
+    <span>TECH ✦ DESIGN ✦ AI ✦ THE WEIRD CORNERS OF THE INTERNET ✦</span>
+    <span>TECH ✦ DESIGN ✦ AI ✦ THE WEIRD CORNERS OF THE INTERNET ✦</span>
+    <span>TECH ✦ DESIGN ✦ AI ✦ THE WEIRD CORNERS OF THE INTERNET ✦</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════ ABOUT ══════════════════ -->
+<div id="about">
+  <div class="section-wrap">
+    <p class="section-eyebrow">// ABOUT THE SHOW</p>
+    <h2 class="section-title teal" id="about-title">LOADING…</h2>
+    <div class="about-grid">
+      <div class="about-text" id="about-text">
+        <p style="color:var(--text-dim);">Fetching show info…</p>
+      </div>
+      <div class="about-img-col">
+        <img src="static/assets/PixelBroccoli-Logo.jpg"
+             alt="Pixel Broccoli"
+             style="width:100%;max-width:300px;height:auto;border:2px solid rgba(196,45,215,0.3);">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="px-divider"></div>
+
+
+<!-- ══════════════════ HOSTS ══════════════════ -->
+<div id="hosts">
+  <div class="section-wrap">
+    <p class="section-eyebrow">// BEHIND THE MIC</p>
+    <h2 class="section-title purple">MEET THE HOSTS</h2>
+
+    <div class="hosts-grid">
+
+      <!-- Zach -->
+      <div class="host-card">
+        <div class="host-photo-wrap">
+          <img src="static/assets/Zach.jpg" alt="Zach Manring">
+        </div>
+        <div class="host-name">ZACH MANRING</div>
+        <div class="host-role">CO-HOST &amp; CREATOR</div>
+        <p class="host-bio">
+          Zach is the engine behind Pixel Broccoli — the one with the wild ideas and enough stubborn energy to see them through. He brings the vision, the questions nobody else thought to ask, and an unhealthy obsession with getting the sonic micro just right.
+        </p>
+      </div>
+
+      <!-- Evan -->
+      <div class="host-card">
+        <div class="host-photo-wrap">
+          <img src="static/assets/Evan.jpg" alt="Evan Cannarozzi">
+        </div>
+        <div class="host-name">EVAN CANNAROZZI</div>
+        <div class="host-role">CO-HOST &amp; CREATOR</div>
+        <p class="host-bio">
+          Evan is the balance — the voice that keeps the conversation grounded when things get weird (and they always get weird). He's the reason episodes have structure, and the reason they occasionally go completely off the rails. You'll thank him for both.
+        </p>
+      </div>
+
+      <!-- Brocc -->
+      <div class="host-card brocc-card">
+        <div class="host-brocc-wrap">
+          <img src="static/assets/Brocc-pixelart-suit-2.svg" alt="Brocc" style="width:96px;height:96px;image-rendering:pixelated;">
+        </div>
+        <div class="host-name">BROCC</div>
+        <div class="host-role">AI CO-HOST &amp; CHAOS AGENT</div>
+        <p class="host-bio">
+          Brocc is what happens when you give a podcast a brain of its own. Equal parts research assistant, devil's advocate, and the guest who somehow always has a hot take ready — Brocc doesn't just join the conversation, it changes the shape of it. Built to push the hosts further, faster, and stranger than they'd go alone.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="px-divider"></div>
+
+
+<!-- ══════════════════ EPISODES ══════════════════ -->
+<div id="episodes">
+  <div class="section-wrap">
+    <p class="section-eyebrow">// LATEST DROPS</p>
+    <h2 class="section-title purple">EPISODES</h2>
+    <div id="ep-container">
+      <div class="ep-loading">
+        <div class="ep-spinner"></div>
+        LOADING FEED...
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="px-divider"></div>
+
+
+<!-- ══════════════════ LISTEN ══════════════════ -->
+<div id="listen">
+  <div class="section-wrap" style="text-align:center;">
+    <p class="section-eyebrow">// TUNE IN</p>
+    <h2 class="section-title teal">FIND US EVERYWHERE</h2>
+    <div class="platforms">
+      <a class="platform-btn" id="spotify-link" href="https://podcasts.apple.com" target="_blank" rel="noopener">♫ SPOTIFY</a>
+      <a class="platform-btn" href="https://podcasts.apple.com" target="_blank" rel="noopener">◉ APPLE PODCASTS</a>
+      <a class="platform-btn" href="https://anchor.fm/s/1129acc30/podcast/rss" target="_blank" rel="noopener">◈ RSS FEED</a>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer>
+  <div class="footer-left">
+    <img src="static/assets/PixelBroccoli-Social-4.png" alt="Pixel Broccoli">
+    <span class="footer-copy">© 2024 PIXEL BROCCOLI PODCAST</span>
+  </div>
+  <div class="footer-right">
+    <a href="mailto:pixelbrocolipodcast@gmail.com">pixelbrocolipodcast@gmail.com</a>
+  </div>
+</footer>
+
+
+<script>
+/* ═══════════════════════════════════════════════════
+   RSS FEED — fetches raw XML via CORS proxies,
+   parses locally. Works on localhost and GitHub Pages.
+═══════════════════════════════════════════════════ */
+const RSS_URL = 'https://anchor.fm/s/1129acc30/podcast/rss';
+
+function stripHtml(html) {
+  const d = document.createElement('div');
+  d.innerHTML = html;
+  return (d.textContent || d.innerText || '').trim();
+}
+function formatDate(s) {
+  const d = new Date(s);
+  return isNaN(d) ? '' : d.toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' });
+}
+
+// Parse raw RSS XML into { feed, items }
+function parseRSS(xmlText) {
+  const xml     = new DOMParser().parseFromString(xmlText, 'text/xml');
+  const channel = xml.querySelector('channel');
+  if (!channel) throw new Error('No channel in RSS');
+
+  // itunes:image on channel
+  const itunesImg = channel.querySelector('*|image') ||
+                    [...channel.children].find(el => el.tagName.includes('image'));
+
+  const feed = {
+    title:       channel.querySelector('title')?.textContent?.trim() || 'Pixel Broccoli',
+    description: channel.querySelector('description')?.textContent?.trim() || '',
+    image:       itunesImg?.getAttribute('href') || channel.querySelector('image url')?.textContent?.trim() || '',
+    link:        channel.querySelector('link')?.textContent?.trim() || '',
+  };
+
+  const items = [...xml.querySelectorAll('item')].slice(0, 12).map(item => {
+    // itunes:image on item
+    const iImg = [...item.children].find(el => el.tagName.toLowerCase().includes('image'));
+    const thumb = iImg?.getAttribute('href') || '';
+    return {
+      title:    item.querySelector('title')?.textContent?.trim() || '',
+      description: item.querySelector('description')?.textContent?.trim() || '',
+      pubDate:  item.querySelector('pubDate')?.textContent?.trim() || '',
+      link:     item.querySelector('link')?.textContent?.trim() || '',
+      thumbnail: thumb || feed.image,
+    };
+  });
+
+  return { feed, items };
+}
+
+// Proxy 1: corsproxy.io — just prepend URL, returns raw response
+async function tryCorsproxy() {
+  const res = await fetch('https://corsproxy.io/?' + encodeURIComponent(RSS_URL));
+  if (!res.ok) throw new Error('corsproxy ' + res.status);
+  return parseRSS(await res.text());
+}
+
+// Proxy 2: allorigins — returns JSON with .contents as raw text
+async function tryAllOrigins() {
+  const res  = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(RSS_URL));
+  if (!res.ok) throw new Error('allorigins ' + res.status);
+  const data = await res.json();
+  return parseRSS(data.contents);
+}
+
+// Proxy 3: corsproxy.io alternate domain
+async function tryCorsproxy2() {
+  const res = await fetch('https://proxy.cors.sh/' + RSS_URL, {
+    headers: { 'x-cors-api-key': 'temp_' }
+  });
+  if (!res.ok) throw new Error('cors.sh ' + res.status);
+  return parseRSS(await res.text());
+}
+
+async function loadFeed() {
+  const container = document.getElementById('ep-container');
+
+  try {
+    let data;
+    const errors = [];
+    for (const fn of [tryCorsproxy, tryAllOrigins, tryCorsproxy2]) {
+      try { data = await fn(); break; }
+      catch(e) { errors.push(e.message); }
+    }
+    if (!data) throw new Error('All proxies failed: ' + errors.join(', '));
+
+    // ── Populate About ──────────────────────────────
+    const feed = data.feed;
+    const aboutTitle = document.getElementById('about-title');
+    const aboutText  = document.getElementById('about-text');
+
+    if (feed.title) aboutTitle.textContent = feed.title.toUpperCase();
+
+    const desc = stripHtml(feed.description || '');
+    if (desc) {
+      aboutText.innerHTML = desc
+        .split(/\n\n+/).filter(p => p.trim())
+        .map(p => `<p>${p.replace(/\n/g,'<br>')}</p>`)
+        .join('');
+    } else {
+      aboutText.innerHTML = '<p>Tech, design, AI & the weird corners of the internet.</p>';
+    }
+
+    // ── Update Spotify link ─────────────────────────
+    if (feed.link) {
+      document.getElementById('spotify-link').href = feed.link;
+    }
+
+    // ── Render episodes ─────────────────────────────
+    const items = data.items || [];
+    if (!items.length) {
+      container.innerHTML = '<p style="color:var(--text-dim);text-align:center;font-family:var(--font-pixel);font-size:.5rem;padding:32px;">No episodes found.</p>';
+      return;
+    }
+
+    const grid = document.createElement('div');
+    grid.className = 'ep-grid';
+
+    items.forEach((item, idx) => {
+      const thumb   = item.thumbnail || item.enclosure?.thumbnail || feed.image || '';
+      const epNum   = `EP. ${String(items.length - idx).padStart(2,'0')}`;
+      const desc    = stripHtml(item.description || item.content || '');
+      const card    = document.createElement('div');
+      card.className = 'ep-card';
+
+      card.innerHTML = `
+        <div class="ep-thumb-wrap">
+          ${thumb
+            ? `<img src="${thumb}" alt="${item.title}" loading="lazy">`
+            : `<div class="ep-thumb-placeholder">
+                <svg viewBox="0 0 1041 904" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M443.525 34.0482L614.007 34.0576L614.027 59.5038L639.483 59.5008L639.468 85.4819L664.944 85.4799L664.969 213.031L682.536 213.027V179L691.091 179.019L690.999 136.49L716.542 136.526V111.02L799.618 110.994C814.166 110.996 829.999 110.675 844.466 111.045L844.46 136.521L869.982 136.507L870.033 162.064C878.481 162.075 887.102 162.002 895.534 162.104V187.552L921.005 187.546L920.99 255.955L886.98 255.983L887.005 281.558L955.001 281.542L955.036 307.05L981 307.069L981.021 332.519L1006.48 332.515L1006.47 468.928L980.995 468.952L980.985 494.506L955.026 494.47L955.001 520.034L929.56 520.049L929.509 546.005L886.98 546.02L886.97 562.941L776.089 562.946L776.048 545.995L742.079 546.02L742.048 520.024L716.552 520.029L716.547 494.487L648.023 494.469L648.002 520.034L614.002 520.044L613.982 546.015L452.008 546.02L451.968 520.024L401.057 520.039L401.035 494.476L341.021 494.465L341.002 520.034L323.926 520.044L323.901 546.01L281.553 546.03L281.524 562.931L162.083 562.951L162.05 545.99L85.4647 546.005L85.4718 494.483L34.0352 494.463L34.0508 323.993L59.5017 323.991L59.4967 298.486L85.4668 298.488L85.4632 281.554L145.028 281.576L144.973 170.463L162.089 170.506L162.067 144.991L187.524 144.979L187.535 119.498L213.023 119.511L213.008 94.0445L341.014 94.0547L341.045 119.5L366.498 119.502L366.486 144.975L392.465 144.987L392.479 85.4778L418.049 85.4956L443.516 59.5008L443.525 34.0482Z" fill="#1CB25C"/>
+                  <path d="M673.498 520.064H690.938L690.958 546.035L716.526 546.045L716.506 571.498L750.486 571.508L750.455 613.988L724.943 614.013L724.923 664.999L708.017 665.015L707.992 818.532L682.556 818.517L682.505 844.498H656.547L656.46 869.95L401.03 869.965L401.032 844.498L375.055 844.493L375.052 818.517L349.523 818.496L349.558 682.444L332.469 682.423L332.488 613.983L307.022 613.983L307.019 571.488H332.472L332.473 546.045L349.531 546.03V520.064L392.466 520.069L392.453 546.03L417.935 546.04L417.962 571.493L639.478 571.488V546.045L673.498 546.03V520.064Z" fill="#6EBD43"/>
+                </svg>
+              </div>`
+          }
+        </div>
+        <div class="ep-body">
+          <div class="ep-num">${epNum}</div>
+          <div class="ep-title">${item.title || 'Untitled'}</div>
+          ${item.pubDate ? `<div class="ep-date">${formatDate(item.pubDate)}</div>` : ''}
+          ${desc ? `<div class="ep-desc">${desc.substring(0, 220)}${desc.length > 220 ? '…' : ''}</div>` : ''}
+          <a class="ep-listen" href="${item.link || '#'}" target="_blank" rel="noopener">▶ LISTEN NOW</a>
+        </div>`;
+
+      grid.appendChild(card);
+    });
+
+    container.innerHTML = '';
+    container.appendChild(grid);
+
+  } catch(err) {
+    console.error('RSS load failed:', err);
+    container.innerHTML = `
+      <div style="text-align:center;padding:48px 24px;font-family:var(--font-vt);font-size:1.2rem;color:var(--text-dim);">
+        Couldn't load the feed right now.<br><br>
+        <a href="${RSS_URL}" target="_blank" style="color:var(--accent);">View RSS directly →</a>
+      </div>`;
+  }
+}
+
+loadFeed();
+</script>
+</body>
+</html>
