@@ -709,7 +709,7 @@
     <p class="section-eyebrow">// TUNE IN</p>
     <h2 class="section-title teal">FIND US EVERYWHERE</h2>
     <div class="platforms">
-      <a class="platform-btn" id="spotify-link" href="https://podcasts.apple.com" target="_blank" rel="noopener">♫ SPOTIFY</a>
+      <a class="platform-btn" id="spotify-link" href="https://open.spotify.com/show/033gFTqCwsukpXM8B1ruUm" target="_blank" rel="noopener">♫ SPOTIFY</a>
       <a class="platform-btn" href="https://podcasts.apple.com" target="_blank" rel="noopener">◉ APPLE PODCASTS</a>
       <a class="platform-btn" href="https://anchor.fm/s/1129acc30/podcast/rss" target="_blank" rel="noopener">◈ RSS FEED</a>
     </div>
@@ -779,27 +779,33 @@ function parseRSS(xmlText) {
   return { feed, items };
 }
 
-// Proxy 1: corsproxy.io — just prepend URL, returns raw response
-async function tryCorsproxy() {
-  const res = await fetch('https://corsproxy.io/?' + encodeURIComponent(RSS_URL));
-  if (!res.ok) throw new Error('corsproxy ' + res.status);
+// Proxy 1: allorigins /raw — returns the RSS XML directly
+async function tryAllOriginsRaw() {
+  const res = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(RSS_URL));
+  if (!res.ok) throw new Error('allorigins-raw ' + res.status);
   return parseRSS(await res.text());
 }
 
-// Proxy 2: allorigins — returns JSON with .contents as raw text
-async function tryAllOrigins() {
+// Proxy 2: allorigins /get — returns JSON wrapper with .contents
+async function tryAllOriginsGet() {
   const res  = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(RSS_URL));
-  if (!res.ok) throw new Error('allorigins ' + res.status);
+  if (!res.ok) throw new Error('allorigins-get ' + res.status);
   const data = await res.json();
+  if (!data.contents) throw new Error('allorigins-get: empty contents');
   return parseRSS(data.contents);
 }
 
-// Proxy 3: corsproxy.io alternate domain
-async function tryCorsproxy2() {
-  const res = await fetch('https://proxy.cors.sh/' + RSS_URL, {
-    headers: { 'x-cors-api-key': 'temp_' }
-  });
-  if (!res.ok) throw new Error('cors.sh ' + res.status);
+// Proxy 3: codetabs proxy
+async function tryCodetabs() {
+  const res = await fetch('https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(RSS_URL));
+  if (!res.ok) throw new Error('codetabs ' + res.status);
+  return parseRSS(await res.text());
+}
+
+// Proxy 4: corsproxy.io
+async function tryCorsproxy() {
+  const res = await fetch('https://corsproxy.io/?' + encodeURIComponent(RSS_URL));
+  if (!res.ok) throw new Error('corsproxy ' + res.status);
   return parseRSS(await res.text());
 }
 
@@ -809,7 +815,7 @@ async function loadFeed() {
   try {
     let data;
     const errors = [];
-    for (const fn of [tryCorsproxy, tryAllOrigins, tryCorsproxy2]) {
+    for (const fn of [tryAllOriginsRaw, tryAllOriginsGet, tryCodetabs, tryCorsproxy]) {
       try { data = await fn(); break; }
       catch(e) { errors.push(e.message); }
     }
@@ -830,11 +836,6 @@ async function loadFeed() {
         .join('');
     } else {
       aboutText.innerHTML = '<p>Tech, design, AI & the weird corners of the internet.</p>';
-    }
-
-    // ── Update Spotify link ─────────────────────────
-    if (feed.link) {
-      document.getElementById('spotify-link').href = feed.link;
     }
 
     // ── Render episodes ─────────────────────────────
