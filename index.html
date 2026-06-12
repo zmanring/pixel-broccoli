@@ -517,6 +517,47 @@
       box-shadow: 0 0 14px rgba(196,45,215,0.3);
     }
 
+    /* ─────────────────── SHORTS ─────────────────── */
+    #shorts { background: var(--bg); }
+    .short-card { cursor: pointer; }
+    .short-overlay {
+      position: absolute; top: 50%; bottom: 0; left: 0; right: 0;
+      padding: 10px 24px;
+      background: linear-gradient(to bottom, transparent 0%, rgba(7,3,15,0.92) 100%);
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .short-label {
+      font-family: var(--font-pixel); font-size: 0.62rem;
+      color: var(--accent); letter-spacing: 0.08em;
+      text-shadow: 0 0 8px rgba(8,215,169,0.5);
+    }
+    .short-duration {
+      font-family: var(--font-vt); font-size: 1.2rem;
+      color: var(--text);
+    }
+    .shorts-modal-backdrop {
+      display: none; position: fixed; inset: 0; z-index: 500;
+      background: rgba(7,3,15,0.92);
+      align-items: center; justify-content: center;
+    }
+    .shorts-modal-backdrop.open { display: flex; }
+    .shorts-modal-box {
+      background: var(--surface2);
+      border: 1px solid rgba(196,45,215,0.4);
+      box-shadow: 0 0 40px rgba(196,45,215,0.2);
+      padding: 20px;
+      width: min(520px, 92vw);
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .shorts-modal-close {
+      font-family: var(--font-pixel); font-size: 0.58rem;
+      color: var(--text-dim); background: none;
+      border: 1px solid var(--surface3); padding: 8px 14px;
+      cursor: pointer; align-self: flex-end; letter-spacing: 0.06em;
+      transition: color .15s, border-color .15s;
+    }
+    .shorts-modal-close:hover { color: var(--accent); border-color: var(--accent); }
+
     /* ─────────────────── LISTEN / PLATFORMS ─────────────────── */
     #listen {
       background: var(--bg);
@@ -617,6 +658,7 @@
     <a href="#about">About</a>
     <a href="#hosts">Hosts</a>
     <a href="#episodes">Episodes</a>
+    <a href="#shorts">Shorts</a>
     <a href="#listen">Listen</a>
   </div>
 </nav>
@@ -752,6 +794,65 @@
 <div class="px-divider"></div>
 
 
+<!-- ══════════════════ SHORTS ══════════════════ -->
+<div id="shorts">
+  <div class="section-wrap">
+    <p class="section-eyebrow">// QUICK HITS</p>
+    <h2 class="section-title teal">EPISODE HIGHLIGHTS</h2>
+    <div class="ep-grid">
+
+      <!-- Short 1 -->
+      <div class="ep-card short-card"
+           data-spotify-url="https://open.spotify.com/embed/episode/6UbRUT2AeP0MlUsgGB77QW?t=1263"
+           onclick="openShortModal(this)">
+        <div class="ep-thumb-wrap" style="background: url('static/assets/Shorts_Image.jpg') center/cover; position: relative;">
+          <div class="short-overlay">
+            <div class="short-label">BROCC'S HIGHLIGHT</div>
+          </div>
+        </div>
+        <div class="ep-body">
+          <div class="ep-title">AI reviewing AI, a prayer with tokens</div>
+          <button class="ep-listen" onclick="event.stopPropagation(); openShortModal(this.closest('[data-spotify-url]'))">▶ PLAY HIGHLIGHT</button>
+        </div>
+      </div>
+
+      <!-- Short 2 -->
+      <div class="ep-card short-card"
+           data-spotify-url="https://open.spotify.com/embed/episode/6UbRUT2AeP0MlUsgGB77QW?t=1141"
+           onclick="openShortModal(this)">
+        <div class="ep-thumb-wrap" style="background: url('static/assets/Zach_Highlight.jpg') center/cover; position: relative;">
+          <div class="short-overlay">
+            <div class="short-label">ZACH'S HIGHLIGHT</div>
+          </div>
+        </div>
+        <div class="ep-body">
+          <div class="ep-title">Remove LLM Bias</div>
+          <button class="ep-listen" onclick="event.stopPropagation(); openShortModal(this.closest('[data-spotify-url]'))">▶ PLAY HIGHLIGHT</button>
+        </div>
+      </div>
+
+      <!-- Short 3 -->
+      <div class="ep-card short-card"
+           data-spotify-url="https://open.spotify.com/embed/episode/6UbRUT2AeP0MlUsgGB77QW?t=1439"
+           onclick="openShortModal(this)">
+        <div class="ep-thumb-wrap" style="background: url('static/assets/Evan_Highlight.jpg') center/cover; position: relative;">
+          <div class="short-overlay">
+            <div class="short-label">EVAN'S HIGHLIGHT</div>
+          </div>
+        </div>
+        <div class="ep-body">
+          <div class="ep-title">Vibe Coding Templates</div>
+          <button class="ep-listen" onclick="event.stopPropagation(); openShortModal(this.closest('[data-spotify-url]'))">▶ PLAY HIGHLIGHT</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="px-divider"></div>
+
+
 <!-- ══════════════════ LISTEN ══════════════════ -->
 <div id="listen">
   <div class="section-wrap" style="text-align:center;">
@@ -785,6 +886,20 @@
     <a href="https://www.youtube.com/@PixelBroccoli" target="_blank" rel="noopener">▶ YouTube</a>
   </div>
 </footer>
+
+
+<!-- ══════════════════ SHORTS MODAL ══════════════════ -->
+<div id="shorts-modal" class="shorts-modal-backdrop" onclick="handleModalBackdropClick(event)">
+  <div class="shorts-modal-box">
+    <button class="shorts-modal-close" onclick="closeShortModal()">✕ CLOSE</button>
+    <iframe id="shorts-iframe"
+            src=""
+            width="100%" height="152"
+            frameborder="0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"></iframe>
+  </div>
+</div>
 
 
 <script>
@@ -950,6 +1065,18 @@ async function loadFeed() {
 }
 
 loadFeed();
+
+function openShortModal(card) {
+  document.getElementById('shorts-iframe').src = card.dataset.spotifyUrl;
+  document.getElementById('shorts-modal').classList.add('open');
+}
+function closeShortModal() {
+  document.getElementById('shorts-iframe').src = '';
+  document.getElementById('shorts-modal').classList.remove('open');
+}
+function handleModalBackdropClick(e) {
+  if (e.target === document.getElementById('shorts-modal')) closeShortModal();
+}
 </script>
 </body>
 </html>
