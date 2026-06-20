@@ -342,6 +342,25 @@
       box-shadow: 0 0 28px rgba(196,45,215,0.5);
     }
 
+    /* ─────────────────── LATEST VIDEO ─────────────────── */
+    #latest-video {
+      background: var(--bg);
+      padding: 72px 24px;
+      text-align: center;
+    }
+    .video-embed-wrap {
+      max-width: 700px;
+      margin: 36px auto 0;
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      box-shadow: 0 0 40px rgba(8,215,169,0.15), 0 0 80px rgba(196,45,215,0.08);
+    }
+    .video-embed-wrap iframe {
+      width: 100%; height: 100%;
+      border: none; display: block;
+    }
+
     /* ─────────────────── SECTION COMMON ─────────────────── */
     .section-wrap {
       max-width: 1060px;
@@ -837,6 +856,23 @@
 </div>
 
 
+<!-- ══════════════════ LATEST VIDEO ══════════════════ -->
+<div id="latest-video">
+  <p class="section-eyebrow" style="font-family:var(--font-pixel);font-size:0.58rem;letter-spacing:0.2em;color:var(--text-dim);margin-bottom:12px;">// WATCH THE LATEST EPISODE</p>
+  <h2 class="section-title teal">LATEST EPISODE</h2>
+  <div class="video-embed-wrap">
+    <iframe id="latest-ep-iframe"
+      style="border-radius:12px"
+      src="https://open.spotify.com/embed/episode/0DrplK5qHYNT7WLSunETIV/video?utm_source=generator"
+      frameBorder="0"
+      allowfullscreen=""
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy">
+    </iframe>
+  </div>
+</div>
+
+
 <!-- ══════════════════ ABOUT ══════════════════ -->
 <div id="about">
   <div class="section-wrap">
@@ -1132,6 +1168,14 @@ async function loadFeed() {
       catch(e) { errors.push(e.message); }
     }
     if (!data) throw new Error('All proxies failed: ' + errors.join(', '));
+
+    // ── Latest video embed ───────────────────────────
+    const latestLink = data.items?.[0]?.link || '';
+    const epId = latestLink.match(/episode\/([A-Za-z0-9]+)/)?.[1];
+    if (epId) {
+      const iframe = document.getElementById('latest-ep-iframe');
+      if (iframe) iframe.src = `https://open.spotify.com/embed/episode/${epId}/video?utm_source=generator`;
+    }
 
     // ── Populate About ──────────────────────────────
     const feed = data.feed;
