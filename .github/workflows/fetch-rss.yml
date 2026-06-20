@@ -1,0 +1,90 @@
+name: Fetch RSS Feed
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'   # every 6 hours
+  workflow_dispatch:          # manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch & parse RSS
+        run: |
+          node - <<'EOF'
+          const https = require('https');
+          const { DOMParser } = require('@xmldom/xmldom');
+          const fs = require('fs');
+
+          // inline xmldom install since it's not in package.json
+          EOF
+
+          # Use plain Python — no deps needed
+          python3 - <<'PYEOF'
+          import urllib.request, xml.etree.ElementTree as ET, json, sys
+
+          RSS_URL = 'https://anchor.fm/s/1129acc30/podcast/rss'
+          NS = {
+            'itunes': 'http://www.itunes.com/dtds/podcast-1.0.dtd',
+            'media':  'http://search.yahoo.com/mrss/',
+          }
+
+          req = urllib.request.Request(RSS_URL, headers={'User-Agent': 'Mozilla/5.0'})
+          with urllib.request.urlopen(req, timeout=20) as r:
+            xml_bytes = r.read()
+
+          root = ET.fromstring(xml_bytes)
+          channel = root.find('channel')
+
+          def txt(el, tag, ns=None):
+            found = channel.find(tag) if ns is None else channel.find(tag, ns)
+            return found.text.strip() if found is not None and found.text else ''
+
+          img_el = channel.find('itunes:image', NS)
+          feed_image = img_el.get('href', '') if img_el is not None else ''
+          if not feed_image:
+            img_el2 = channel.find('image/url')
+            feed_image = img_el2.text.strip() if img_el2 is not None and img_el2.text else ''
+
+          feed = {
+            'title':       txt(None, 'title'),
+            'description': txt(None, 'description'),
+            'image':       feed_image,
+            'link':        txt(None, 'link'),
+          }
+
+          items = []
+          for item in channel.findall('item')[:12]:
+            def itxt(tag):
+              el = item.find(tag)
+              return el.text.strip() if el is not None and el.text else ''
+            iimg = item.find('itunes:image', NS)
+            thumb = iimg.get('href', '') if iimg is not None else ''
+            if not thumb:
+              thumb = feed_image
+            items.append({
+              'title':       itxt('title'),
+              'description': itxt('description'),
+              'pubDate':     itxt('pubDate'),
+              'link':        itxt('link'),
+              'thumbnail':   thumb,
+            })
+
+          out = {'feed': feed, 'items': items}
+          with open('static/feed.json', 'w') as f:
+            json.dump(out, f)
+          print(f'Wrote {len(items)} episodes to static/feed.json')
+          PYEOF
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add static/feed.json
+          git diff --cached --quiet || git commit -m "chore: refresh RSS feed cache"
+          git push

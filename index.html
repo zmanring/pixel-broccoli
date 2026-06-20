@@ -60,7 +60,7 @@
   <!-- Fonts: local Retro Gaming + VT323 from Google -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=Caveat:wght@700&display=swap" rel="stylesheet">
 
   <style>
     @font-face {
@@ -130,7 +130,7 @@
     .nav-links a {
       font-family: var(--font-pixel);
       font-size: 0.62rem;
-      color: var(--text-dim);
+      color: var(--text);
       text-decoration: none;
       padding: 10px 18px;
       border: 1px solid transparent;
@@ -142,6 +142,51 @@
       color: var(--accent);
       border-color: rgba(8,215,169,0.25);
       background: rgba(8,215,169,0.05);
+    }
+    .nav-burger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      margin-left: auto;
+      flex-direction: column;
+      gap: 5px;
+      z-index: 201;
+    }
+    .nav-burger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      transition: transform .2s, opacity .2s;
+    }
+    @media (max-width: 640px) {
+      nav { padding: 0 20px; }
+      .nav-burger { display: flex; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 68px; left: 0; right: 0;
+        background: rgba(7,3,15,0.97);
+        border-bottom: 1px solid rgba(196,45,215,0.3);
+        backdrop-filter: blur(8px);
+        flex-direction: column;
+        padding: 8px 0 16px;
+        gap: 0;
+        margin-left: 0;
+      }
+      .nav-links a {
+        padding: 16px 28px;
+        border: none;
+        border-radius: 0;
+        border-bottom: 1px solid rgba(196,45,215,0.08);
+        font-size: 0.7rem;
+      }
+      nav.open .nav-links { display: flex; }
+      nav.open .nav-burger span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+      nav.open .nav-burger span:nth-child(2) { opacity: 0; }
+      nav.open .nav-burger span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
     }
 
     /* ─────────────────── HERO ─────────────────── */
@@ -190,13 +235,50 @@
       display: flex; flex-direction: column;
       align-items: center; gap: 0;
     }
+    .brocc-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: flex-start;
+      justify-content: center;
+      margin-bottom: 28px;
+    }
     .hero-logo {
       width: clamp(160px, 26vw, 260px);
       height: auto;
       image-rendering: pixelated;
       filter: drop-shadow(0 0 30px rgba(196,45,215,0.7)) drop-shadow(0 0 60px rgba(8,215,169,0.3));
       animation: hero-float 4s ease-in-out infinite;
-      margin-bottom: 28px;
+    }
+    .brocc-label {
+      position: absolute;
+      left: calc(100% + 6px);
+      top: 28%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .brocc-label-text {
+      font-family: 'Caveat', cursive;
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+      transform: rotate(-6deg);
+      display: block;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    }
+    .brocc-arrow {
+      width: 88px;
+      height: 56px;
+      margin-top: 2px;
+      transform: rotate(4deg);
+    }
+    @media (max-width: 560px) {
+      .brocc-label { top: 18%; left: calc(100% + 2px); }
+      .brocc-label-text { font-size: 1.1rem; }
+      .brocc-arrow { width: 60px; height: 40px; }
     }
     @keyframes hero-float {
       0%,100% { transform: translateY(0); }
@@ -208,6 +290,14 @@
       image-rendering: pixelated;
       filter: drop-shadow(0 0 16px rgba(196,45,215,0.5));
       margin-bottom: 20px;
+    }
+    .hero-show-title {
+      font-family: var(--font-pixel);
+      font-size: clamp(1rem, 3vw, 1.6rem);
+      color: var(--accent);
+      letter-spacing: 0.18em;
+      text-shadow: 0 0 18px rgba(28,178,92,0.6);
+      margin-bottom: 12px;
     }
     .hero-tagline {
       font-family: var(--font-pixel);
@@ -564,25 +654,45 @@
       text-align: center;
     }
     .platforms {
-      display: flex; flex-wrap: wrap;
-      justify-content: center; gap: 18px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
       margin-top: 40px;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    @media (max-width: 640px) {
+      .platforms { grid-template-columns: 1fr 1fr; }
     }
     .platform-btn {
       font-family: var(--font-pixel);
       font-size: 0.65rem;
-      padding: 14px 22px;
-      border: 1px solid var(--surface3);
-      color: var(--text-dim);
+      padding: 14px 10px;
+      border: 1px solid rgba(8,215,169,0.4);
+      color: var(--text);
       background: var(--surface);
       text-decoration: none;
       transition: all .15s;
       letter-spacing: 0.05em;
+      text-align: center;
+      display: block;
     }
     .platform-btn:hover {
       border-color: var(--accent);
       color: var(--accent);
       box-shadow: 0 0 16px rgba(8,215,169,0.2);
+    }
+    .platform-btn--featured {
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      background: rgba(8,215,169,0.08);
+      text-shadow: 0 0 10px rgba(8,215,169,0.5);
+      box-shadow: 0 0 14px rgba(8,215,169,0.15);
+    }
+    .platform-btn--featured:hover {
+      background: rgba(8,215,169,0.18);
+      box-shadow: 0 0 28px rgba(8,215,169,0.4);
     }
 
     /* ─────────────────── FOOTER ─────────────────── */
@@ -654,12 +764,15 @@
   <a class="nav-logo" href="#hero">
     <img src="static/assets/PixelBroccoli-Logo-Horizontal.png" alt="Pixel Broccoli" style="height:38px;width:auto;image-rendering:pixelated;">
   </a>
+  <button class="nav-burger" aria-label="Toggle menu" onclick="this.closest('nav').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
   <div class="nav-links">
-    <a href="#about">About</a>
-    <a href="#hosts">Hosts</a>
-    <a href="#episodes">Episodes</a>
-    <a href="#shorts">Shorts</a>
-    <a href="#listen">Listen</a>
+    <a href="#about"    onclick="this.closest('nav').classList.remove('open')">About</a>
+    <a href="#hosts"    onclick="this.closest('nav').classList.remove('open')">Hosts</a>
+    <a href="#episodes" onclick="this.closest('nav').classList.remove('open')">Episodes</a>
+    <a href="#shorts"   onclick="this.closest('nav').classList.remove('open')">Shorts</a>
+    <a href="#listen"   onclick="this.closest('nav').classList.remove('open')">Listen</a>
   </div>
 </nav>
 
@@ -669,6 +782,7 @@
   <div class="hero-bg"></div>
   <div class="hero-content">
     <!-- Brocc character floats above the logo -->
+    <div class="brocc-wrap">
     <svg class="hero-logo" viewBox="0 0 1041 904" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <path d="M443.5 8.52317C463.497 8.03405 485.362 8.45966 505.482 8.45824L613.992 8.519C613.967 16.9861 614.023 25.4533 614.155 33.9194C622.206 34.2152 631.315 34.037 639.448 34.0622L639.539 59.4321L664.934 59.4972C664.944 68.0776 664.853 76.8405 665.193 85.3995L690.923 85.4758C691.025 93.9443 691.056 102.413 691.01 110.882C699.443 110.996 707.87 111.005 716.303 110.909C716.862 104.159 716.476 92.752 716.542 85.4783C758.35 84.9038 802.572 85.31 844.415 85.4982C844.374 93.9499 844.461 102.402 844.669 110.851C852.619 111.176 861.926 110.996 869.998 111.022C870.008 119.463 870.074 127.903 870.186 136.343C878.563 136.483 887.102 136.452 895.494 136.5L895.621 161.803C902.092 162.391 914.078 162.063 921.001 162.069L921.118 187.41L946.451 187.555L946.487 255.851C952.165 255.97 957.842 256.055 963.52 256.104C963.291 264.174 963.566 273.064 963.444 281.299C969.045 281.546 975.338 281.471 980.99 281.518C980.98 289.979 981.031 298.44 981.138 306.9C989.494 307.154 998.085 307.065 1006.46 307.072L1006.54 332.443L1031.93 332.507C1032.53 386.027 1032.12 441.053 1031.94 494.641C1023.92 494.935 1014.65 494.731 1006.53 494.75C1006.39 503.101 1006.47 511.706 1006.44 520.08L981.031 520.136L981.006 546.035L946.512 546.122L946.406 571.62C941.043 571.854 935.004 571.808 929.591 571.879C929.245 583.624 929.535 596.742 929.54 608.568L929.444 691.016L912.522 691.148L912.38 699.619C905.101 699.868 894.234 699.934 887.026 699.609L886.97 716.626C879.452 716.961 869.012 716.88 861.535 716.534L861.453 742.053C819.427 742.897 775.784 741.758 733.514 742.226L733.428 836.012C725.361 836.068 716.008 836.363 708.043 836.017L708.002 844.574C700.993 845.077 689.958 844.681 682.613 844.665C682.43 852.999 682.511 861.657 682.475 870.011L656.613 870.123C656.405 878.548 656.547 887.171 656.379 895.672C646.6 895.916 636.362 895.819 626.562 895.748C551.456 895.199 476.136 896.567 401.059 895.692L400.949 870.24C394.606 869.64 381.829 870.011 375.06 869.991L374.969 844.752C366.945 844.106 358.051 845.184 349.426 844.477L349.502 836.21C341.555 835.859 332.078 836.053 323.994 835.992C324.318 804.814 323.568 773.312 324.086 742.155C279.077 741.916 232.35 742.917 187.534 741.977L187.467 716.738C181.701 716.219 168.711 716.819 162.085 716.682C162.091 708.216 162.047 699.746 161.953 691.28C156.216 690.645 142.752 691.006 136.453 690.975L136.402 682.8C130.753 682.82 125.105 682.754 119.459 682.601L119.451 571.808C108.673 571.65 96.0077 572.225 85.4426 571.488C85.4681 563.088 85.4467 554.689 85.3796 546.29C78.8663 545.684 66.453 546.02 59.5056 546.02L59.4746 520.166L34.0359 520.069L33.9721 494.738C25.9619 494.387 16.7789 494.807 8.47168 494.588L8.55433 324.067C16.3502 323.727 26.0221 323.936 33.9607 323.904C34.2296 315.801 34.0403 306.66 34.0577 298.477L59.3887 298.425C59.7175 290.612 59.499 281.013 59.5178 273.072C67.9083 272.852 76.9855 273.028 85.4274 273.033L85.4996 256.127C95.5416 255.6 109.186 255.959 119.4 256.055C119.863 222.129 119.383 187.532 119.508 153.518L136.373 153.473L136.569 145.07C144.304 144.711 154.045 144.944 161.924 144.911C162.346 137.658 162.055 127.702 162.062 120.249L162.379 119.699C165.274 119.157 183.355 119.428 187.392 119.432C187.79 111.852 187.515 101.86 187.544 94.0948C195.742 93.8828 204.681 93.9967 212.93 93.9616C213.211 85.73 213.011 76.3834 213.028 68.0654C254.805 67.3149 299.043 67.9546 341.012 68.0639C340.995 76.6839 341.044 85.3034 341.159 93.923C349.142 94.2229 358.325 94.0175 366.398 94.0282L366.526 85.4758L392.368 85.4082C392.714 77.4196 392.49 67.6561 392.502 59.5008L417.843 59.4469C418.338 52.4269 417.999 41.4554 418.049 34.0459L443.285 33.9821C443.835 27.257 443.483 15.5796 443.5 8.52317Z" fill="black"/>
       <path d="M784.471 588.52L903.937 588.5L903.921 673.541L886.99 673.516L886.965 690.97L861.534 690.986V716.534C819.254 715.818 775.886 716.662 733.488 716.433V673.546L750.506 673.536L750.501 639.542L767.519 639.537L767.514 614.069L784.466 614.044L784.481 597.413L784.471 588.52Z" fill="#6EBD43"/>
@@ -683,7 +797,25 @@
       <path d="M614.001 630.98L648.047 630.965V639.511L656.562 639.527L656.495 647.916L664.984 647.901L664.989 656.447L673.508 656.452L673.498 665.02L656.49 665.025L656.516 656.488L648.022 656.468L648.007 648.053C636.804 647.89 625.25 648.033 614.017 648.033L614.037 656.473L597.045 656.463L597.065 665.03L588.525 665.025L588.546 647.997L596.928 647.936L596.989 639.516L613.986 639.537L614.001 630.98Z" fill="black"/>
       <path d="M144.979 571.493H161.988L162.038 588.495L281.534 588.561L281.523 639.542H306.985L307 690.996L323.938 691.001L323.914 716.463L187.51 716.438L187.538 690.965L162.055 690.975L162.05 664.984L144.995 665.004L144.979 571.493Z" fill="#6EBD43"/>
     </svg>
+    <div class="brocc-label">
+      <span class="brocc-label-text">Brocc</span>
+      <svg class="brocc-arrow" viewBox="0 0 88 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="squiggle">
+            <feTurbulence type="turbulence" baseFrequency="0.045" numOctaves="3" seed="4" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.2" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+        </defs>
+        <g filter="url(#squiggle)">
+          <path d="M 80 8 C 62 3, 28 44, 7 36" stroke="white" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+          <path d="M 7 36 L 21 26" stroke="white" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+          <path d="M 7 36 L 17 47" stroke="white" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+        </g>
+      </svg>
+    </div>
+    </div>
 
+    <p class="hero-show-title">PIXEL BROCCOLI PODCAST</p>
     <p class="hero-tagline">TWO HUMANS. ONE AI. ZERO FILLER.</p>
 
     <div class="hero-btns">
@@ -859,7 +991,7 @@
     <p class="section-eyebrow">// TUNE IN</p>
     <h2 class="section-title teal">FIND US EVERYWHERE</h2>
     <div class="platforms">
-      <a class="platform-btn" href="https://open.spotify.com/show/033gFTqCwsukpXM8B1ruUm" target="_blank" rel="noopener">♫ SPOTIFY</a>
+      <a class="platform-btn platform-btn--featured" href="https://open.spotify.com/show/033gFTqCwsukpXM8B1ruUm" target="_blank" rel="noopener">♫ SPOTIFY</a>
       <a class="platform-btn" href="https://podcasts.apple.com/us/podcast/pixel-broccoli/id1896833911" target="_blank" rel="noopener">◉ APPLE PODCASTS</a>
       <a class="platform-btn" href="https://music.amazon.com/podcasts/aa1d3941-da3a-41fb-abab-280c18165c68/pixel-broccoli" target="_blank" rel="noopener">◈ AMAZON MUSIC</a>
       <a class="platform-btn" href="https://iheart.com/podcast/335090441/" target="_blank" rel="noopener">♥ IHEARTRADIO</a>
@@ -952,6 +1084,13 @@ function parseRSS(xmlText) {
   return { feed, items };
 }
 
+// Static cache written by GitHub Actions — fastest path
+async function tryStaticCache() {
+  const res = await fetch('./static/feed.json');
+  if (!res.ok) throw new Error('static-cache ' + res.status);
+  return res.json();
+}
+
 // Proxy 1: allorigins /raw — returns the RSS XML directly
 async function tryAllOriginsRaw() {
   const res = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(RSS_URL));
@@ -988,7 +1127,7 @@ async function loadFeed() {
   try {
     let data;
     const errors = [];
-    for (const fn of [tryAllOriginsRaw, tryAllOriginsGet, tryCodetabs, tryCorsproxy]) {
+    for (const fn of [tryStaticCache, tryAllOriginsRaw, tryAllOriginsGet, tryCodetabs, tryCorsproxy]) {
       try { data = await fn(); break; }
       catch(e) { errors.push(e.message); }
     }
