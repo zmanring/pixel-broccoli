@@ -16,15 +16,6 @@ jobs:
 
       - name: Fetch & parse RSS
         run: |
-          node - <<'EOF'
-          const https = require('https');
-          const { DOMParser } = require('@xmldom/xmldom');
-          const fs = require('fs');
-
-          // inline xmldom install since it's not in package.json
-          EOF
-
-          # Use plain Python — no deps needed
           python3 - <<'PYEOF'
           import urllib.request, xml.etree.ElementTree as ET, json, sys
 
