@@ -6,6 +6,7 @@
   <title>Pixel Broccoli — The Podcast</title>
   <meta name="description" content="Pixel Broccoli is a tech, design & AI podcast where an AI co-host joins every episode. Two humans, one AI, zero filler. New episodes weekly.">
   <link rel="canonical" href="https://pixelbroccoli.com">
+  <meta name="theme-color" content="#08D7A9">
   <link rel="icon" type="image/png" href="static/assets/PixelBroccoli-Social-4.png">
   <link rel="apple-touch-icon" href="static/assets/PixelBroccoli-Social-4.png">
 
@@ -113,10 +114,10 @@
     gtag('config', 'G-SN1SG15EC1');
   </script>
 
-  <!-- Fonts: local Retro Gaming + VT323 from Google -->
+  <!-- Fonts: local Retro Gaming + Caveat from Google -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=VT323&family=Caveat:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
   <link rel="preload" as="image" href="static/assets/PixelBroccoli-Background.jpg">
 
   <style>
@@ -129,33 +130,50 @@
     }
 
     :root {
-      --bg:       #07030F;
-      --surface:  #0d0820;
-      --surface2: #130f2e;
-      --surface3: #1e1650;
+      /* Backgrounds — matches app (brocc.css) */
+      --bg:       #06102B;
+      --brocc-bg: #080620;
+      --surface:  #0b1a3b;
+      --surface2: #0f2148;
+      --surface3: #162c5f;
+      /* Accent / brand */
       --accent:   #08D7A9;
+      --accent2:  #0aefbc;
       --purple:   #C42DD7;
       --purple2:  #e040f5;
-      --magenta:  #FF00FF;
-      --text:     #e8d8ff;
+      /* Text — --text-dim raised to #9080b8 for WCAG AA on dark bg */
+      --text:     #cce4ff;
       --text-dim: #9080b8;
+      /* Status */
+      --red:    #ff2d6b;
+      --yellow: #ffe600;
+      --blue:   #00b8ff;
+      --orange: #ff8c00;
+      /* Typography */
       --font-pixel: 'RetroGaming', monospace;
-      --font-vt:    'VT323', monospace;
+      --font-body:  system-ui, -apple-system, 'Segoe UI', sans-serif;
+      /* Grid texture (32px teal, 4% opacity) */
+      --grid-overlay:
+        linear-gradient(rgba(8,215,169,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(8,215,169,0.04) 1px, transparent 1px);
+      --grid-size: 32px 32px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--bg);
+      background-color: var(--bg);
+      background-image: var(--grid-overlay);
+      background-size: var(--grid-size);
       color: var(--text);
-      font-family: var(--font-vt);
-      font-size: 22px;
-      line-height: 1.7;
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      line-height: 1.55;
       overflow-x: hidden;
     }
 
-    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 3px; }
 
@@ -183,7 +201,7 @@
       display: flex; align-items: center;
       padding: 0 48px;
       height: 68px;
-      background: rgba(7,3,15,0.88);
+      background: rgba(6,16,43,0.88);
       border-bottom: 1px solid rgba(196,45,215,0.3);
       box-shadow: 0 0 20px rgba(196,45,215,0.1);
       backdrop-filter: blur(8px);
@@ -242,7 +260,7 @@
         display: none;
         position: absolute;
         top: 68px; left: 0; right: 0;
-        background: rgba(7,3,15,0.97);
+        background: rgba(6,16,43,0.97);
         border-bottom: 1px solid rgba(196,45,215,0.3);
         backdrop-filter: blur(8px);
         flex-direction: column;
@@ -285,10 +303,10 @@
       content: '';
       position: absolute; inset: 0;
       background: linear-gradient(to bottom,
-        rgba(7,3,15,0.1) 0%,
-        rgba(7,3,15,0.0) 40%,
-        rgba(7,3,15,0.7) 80%,
-        rgba(7,3,15,1) 100%
+        rgba(6,16,43,0.1) 0%,
+        rgba(6,16,43,0.0) 40%,
+        rgba(6,16,43,0.7) 80%,
+        rgba(6,16,43,1) 100%
       );
     }
     /* scanlines */
@@ -418,7 +436,9 @@
 
     /* ─────────────────── LATEST VIDEO ─────────────────── */
     #latest-video {
-      background: var(--bg);
+      background-color: var(--bg);
+      background-image: var(--grid-overlay);
+      background-size: var(--grid-size);
       padding: 72px 24px;
       text-align: center;
     }
@@ -464,7 +484,11 @@
     }
 
     /* ─────────────────── ABOUT ─────────────────── */
-    #about { background: var(--surface); }
+    #about {
+      background-color: var(--surface);
+      background-image: var(--grid-overlay);
+      background-size: var(--grid-size);
+    }
     .about-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -476,12 +500,12 @@
       .about-img-col { display: none; }
     }
     .about-text p {
-      font-family: var(--font-vt);
-      font-size: 1.6rem;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
       color: var(--text);
       opacity: 0.85;
       margin-bottom: 22px;
-      line-height: 1.8;
+      line-height: 1.6;
     }
     .about-text p:last-child { margin-bottom: 0; }
     .about-img-col {
@@ -500,7 +524,11 @@
     }
 
     /* ─────────────────── HOSTS ─────────────────── */
-    #hosts { background: var(--bg); }
+    #hosts {
+      background-color: var(--bg);
+      background-image: var(--grid-overlay);
+      background-size: var(--grid-size);
+    }
     .hosts-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -522,7 +550,7 @@
       content: '';
       position: absolute; top: 0; left: 0; right: 0;
       height: 3px;
-      background: linear-gradient(90deg, var(--accent), var(--purple));
+      background: var(--purple);
       opacity: 0;
       transition: opacity .2s;
     }
@@ -530,7 +558,7 @@
     .host-card:hover::before { opacity: 1; }
     .host-card.brocc-card { border-color: rgba(8,215,169,0.2); }
     .host-card.brocc-card:hover { border-color: rgba(8,215,169,0.5); box-shadow: 0 0 24px rgba(8,215,169,0.12); }
-    .host-card.brocc-card::before { background: linear-gradient(90deg, var(--purple), var(--accent)); }
+    .host-card.brocc-card::before { background: var(--accent); }
 
     .host-photo-wrap {
       width: 160px; height: 160px;
@@ -589,15 +617,19 @@
     }
     .host-card.brocc-card .host-role { color: var(--purple2); text-shadow: 0 0 8px rgba(196,45,215,0.4); }
     .host-bio {
-      font-family: var(--font-vt);
-      font-size: 1.4rem;
+      font-family: var(--font-body);
+      font-size: 0.875rem;
       color: var(--text);
       opacity: 0.75;
-      line-height: 1.7;
+      line-height: 1.55;
     }
 
     /* ─────────────────── EPISODES ─────────────────── */
-    #episodes { background: var(--surface); }
+    #episodes {
+      background-color: var(--surface);
+      background-image: var(--grid-overlay);
+      background-size: var(--grid-size);
+    }
     .ep-loading {
       text-align: center;
       padding: 56px 0;
@@ -665,13 +697,13 @@
       line-height: 1.8;
     }
     .ep-date {
-      font-family: var(--font-vt);
-      font-size: 1.2rem;
+      font-family: var(--font-body);
+      font-size: 0.78rem;
       color: var(--text-dim);
     }
     .ep-desc {
-      font-family: var(--font-vt);
-      font-size: 1.35rem;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
       color: var(--text);
       opacity: 0.65;
       line-height: 1.5;
@@ -701,12 +733,16 @@
     }
 
     /* ─────────────────── SHORTS ─────────────────── */
-    #shorts { background: var(--bg); }
+    #shorts {
+      background-color: var(--bg);
+      background-image: var(--grid-overlay);
+      background-size: var(--grid-size);
+    }
     .short-card { cursor: pointer; }
     .short-overlay {
       position: absolute; top: 50%; bottom: 0; left: 0; right: 0;
       padding: 10px 24px;
-      background: linear-gradient(to bottom, transparent 0%, rgba(7,3,15,0.92) 100%);
+      background: linear-gradient(to bottom, transparent 0%, rgba(6,16,43,0.92) 100%);
       display: flex; flex-direction: column; justify-content: flex-end;
     }
     .short-label {
@@ -715,12 +751,12 @@
       text-shadow: 0 0 8px rgba(8,215,169,0.5);
     }
     .short-duration {
-      font-family: var(--font-vt); font-size: 1.2rem;
+      font-family: var(--font-body); font-size: 0.78rem;
       color: var(--text);
     }
     .shorts-modal-backdrop {
       display: none; position: fixed; inset: 0; z-index: 500;
-      background: rgba(7,3,15,0.92);
+      background: rgba(6,16,43,0.92);
       align-items: center; justify-content: center;
     }
     .shorts-modal-backdrop.open { display: flex; }
@@ -743,7 +779,9 @@
 
     /* ─────────────────── LISTEN / PLATFORMS ─────────────────── */
     #listen {
-      background: var(--bg);
+      background-color: var(--bg);
+      background-image: var(--grid-overlay);
+      background-size: var(--grid-size);
       text-align: center;
     }
     .platforms {
@@ -761,7 +799,7 @@
     .platform-btn {
       font-family: var(--font-pixel);
       font-size: 0.65rem;
-      padding: 14px 10px;
+      padding: 18px 10px 14px;
       border: 1px solid rgba(8,215,169,0.4);
       color: var(--text);
       background: var(--surface);
@@ -769,8 +807,19 @@
       transition: all .15s;
       letter-spacing: 0.05em;
       text-align: center;
-      display: block;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
     }
+    .platform-btn img {
+      width: 26px;
+      height: 26px;
+      filter: brightness(0) invert(1);
+      opacity: 0.8;
+      transition: opacity .15s;
+    }
+    .platform-btn:hover img { opacity: 1; }
     .platform-btn:hover {
       border-color: var(--accent);
       color: var(--accent);
@@ -790,7 +839,9 @@
 
     /* ─────────────────── FOOTER ─────────────────── */
     footer {
-      background: rgba(7,3,15,0.98);
+      background-color: rgba(6,16,43,0.98);
+      background-image: var(--grid-overlay);
+      background-size: var(--grid-size);
       border-top: 1px solid rgba(196,45,215,0.15);
       padding: 40px 48px;
       display: flex;
@@ -1114,14 +1165,22 @@
     <p class="section-eyebrow">// TUNE IN</p>
     <h2 class="section-title teal">FIND US EVERYWHERE</h2>
     <div class="platforms">
-      <a class="platform-btn platform-btn--featured" href="https://open.spotify.com/show/033gFTqCwsukpXM8B1ruUm" target="_blank" rel="noopener">♫ SPOTIFY</a>
-      <a class="platform-btn" href="https://podcasts.apple.com/us/podcast/pixel-broccoli/id1896833911" target="_blank" rel="noopener">◉ APPLE PODCASTS</a>
-      <a class="platform-btn" href="https://music.amazon.com/podcasts/aa1d3941-da3a-41fb-abab-280c18165c68/pixel-broccoli" target="_blank" rel="noopener">◈ AMAZON MUSIC</a>
-      <a class="platform-btn" href="https://iheart.com/podcast/335090441/" target="_blank" rel="noopener">♥ IHEARTRADIO</a>
-      <a class="platform-btn" href="https://pca.st/vavyu1m7" target="_blank" rel="noopener">◎ POCKET CASTS</a>
-      <a class="platform-btn" href="https://castbox.fm/channel/Pixel-Broccoli-id7249494?country=us" target="_blank" rel="noopener">□ CASTBOX</a>
-      <a class="platform-btn" href="https://goodpods.com/podcasts/pixel-broccoli-734581" target="_blank" rel="noopener">★ GOODPODS</a>
-      <a class="platform-btn" href="https://anchor.fm/s/1129acc30/podcast/rss" target="_blank" rel="noopener">◈ RSS FEED</a>
+      <a class="platform-btn platform-btn--featured" href="https://open.spotify.com/show/033gFTqCwsukpXM8B1ruUm" target="_blank" rel="noopener">
+        <img src="static/assets/icons/spotify.svg" width="26" height="26" alt="" aria-hidden="true">SPOTIFY</a>
+      <a class="platform-btn" href="https://podcasts.apple.com/us/podcast/pixel-broccoli/id1896833911" target="_blank" rel="noopener">
+        <img src="static/assets/icons/applepodcasts.svg" width="26" height="26" alt="" aria-hidden="true">APPLE PODCASTS</a>
+      <a class="platform-btn" href="https://music.amazon.com/podcasts/aa1d3941-da3a-41fb-abab-280c18165c68/pixel-broccoli" target="_blank" rel="noopener">
+        <img src="static/assets/icons/amazonmusic.svg" width="26" height="26" alt="" aria-hidden="true">AMAZON MUSIC</a>
+      <a class="platform-btn" href="https://iheart.com/podcast/335090441/" target="_blank" rel="noopener">
+        <img src="static/assets/icons/iheartradio.svg" width="26" height="26" alt="" aria-hidden="true">IHEARTRADIO</a>
+      <a class="platform-btn" href="https://pca.st/vavyu1m7" target="_blank" rel="noopener">
+        <img src="static/assets/icons/pocketcasts.svg" width="26" height="26" alt="" aria-hidden="true">POCKET CASTS</a>
+      <a class="platform-btn" href="https://castbox.fm/channel/Pixel-Broccoli-id7249494?country=us" target="_blank" rel="noopener">
+        <img src="static/assets/icons/castbox.svg" width="26" height="26" alt="" aria-hidden="true">CASTBOX</a>
+      <a class="platform-btn" href="https://goodpods.com/podcasts/pixel-broccoli-734581" target="_blank" rel="noopener">
+        <img src="static/assets/icons/goodpods.svg" width="26" height="26" alt="" aria-hidden="true">GOODPODS</a>
+      <a class="platform-btn" href="https://anchor.fm/s/1129acc30/podcast/rss" target="_blank" rel="noopener">
+        <img src="static/assets/icons/rss.svg" width="26" height="26" alt="" aria-hidden="true">RSS FEED</a>
     </div>
   </div>
 </div>
@@ -1151,6 +1210,7 @@
             title="Episode highlight player"
             src=""
             width="100%" height="152"
+            style="border:none;display:block;"
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
             loading="lazy"></iframe>
   </div>
@@ -1327,7 +1387,7 @@ async function loadFeed() {
   } catch(err) {
     console.error('RSS load failed:', err);
     container.innerHTML = `
-      <div style="text-align:center;padding:48px 24px;font-family:var(--font-vt);font-size:1.2rem;color:var(--text-dim);">
+      <div style="text-align:center;padding:48px 24px;font-family:var(--font-body);font-size:0.875rem;color:var(--text-dim);">
         Couldn't load the feed right now.<br><br>
         <a href="${RSS_URL}" target="_blank" style="color:var(--accent);">View RSS directly →</a>
       </div>`;
