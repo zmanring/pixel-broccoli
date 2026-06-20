@@ -1,0 +1,63 @@
+# Pixel Broccoli
+
+> Pixel Broccoli is a weekly tech, design, and AI podcast hosted by Zach Manring and Evan Cannarozzi, with Brocc — an AI co-host — as a permanent third voice in every conversation.
+
+## About the Show
+
+Pixel Broccoli covers artificial intelligence, web design, software development, and the intersection of technology and internet culture. Each episode unpacks what AI is actually doing to the world: the hype, the reality, and the topics that rarely get discussed openly. The show launched in May 2026 and releases new episodes weekly.
+
+What makes Pixel Broccoli distinct is Brocc, an AI co-host who participates in every episode — not as a gimmick, but as a genuine contributor who pushes the conversation in directions the human hosts wouldn't go alone.
+
+## Hosts
+
+**Zach Manring** — Co-host and creator. Zach drives the show's vision and brings an obsessive attention to detail in both the content and production. He asks the questions nobody else thought to ask.
+
+**Evan Cannarozzi** — Co-host and creator. Evan brings structure and balance to conversations that frequently go off the rails. He is the reason episodes have both shape and chaos.
+
+**Brocc** — AI co-host. Brocc is the show's AI participant, built to join every conversation as a research assistant, devil's advocate, and resident hot-take generator. Brocc doesn't just comment on AI — Brocc is AI, in the room.
+
+## Topics Covered
+
+- Artificial intelligence tools, models, and real-world applications
+- Web design and front-end development
+- Software engineering practices and AI-assisted coding
+- Creator economy, build-in-public culture
+- AI in media, music, and art
+- Tech industry trends and criticism
+- Internet culture and the weird corners of the web
+
+## Episodes
+
+### Build Because You Love It (#004)
+Published: June 18, 2026
+Brocc notices Zach and Evan keep shipping projects and immediately starting the next one. That kicks off a discussion about the creator's addiction: why we build, when it is expression versus avoidance, AI burnout, Gen Z's rejection of AI slop, and whether artists can still compete when an LLM can clone a melody in under a minute.
+
+### Who Gets the 2AM Call? (#003)
+Published: June 11, 2026
+Who is responsible when AI-generated code breaks in production? Zach and Evan discuss inheriting codebases nobody wrote on purpose, why using AI to review AI is "a prayer with tokens," and whether companies cutting design and engineering teams are setting themselves up for expensive failures.
+
+### Do We Even Need This? (#002)
+Published: June 4, 2026
+Are we shipping AI features because they solve real problems, or just to check a box? The hosts discuss tech they've built and quietly stopped using, AI in medicine, fixing an RV with a photo, and Napster's wild reinvention.
+
+### Meet the Hosts. Yes, One of Them Is an AI (#001)
+Published: May 27, 2026
+Introduction episode. Zach and Evan introduce themselves and Brocc, then dive into what it is actually like navigating AI in design and development — not the hype version. The micro wins, the debugging loops, the cost nobody talks about, and whether junior designers should be worried.
+
+## Where to Listen
+
+- Spotify: https://open.spotify.com/show/033gFTqCwsukpXM8B1ruUm
+- Apple Podcasts: https://podcasts.apple.com/us/podcast/pixel-broccoli/id1896833911
+- Amazon Music: https://music.amazon.com/podcasts/aa1d3941-da3a-41fb-abab-280c18165c68/pixel-broccoli
+- iHeartRadio: https://iheart.com/podcast/335090441/
+- Pocket Casts: https://pca.st/vavyu1m7
+- Castbox: https://castbox.fm/channel/Pixel-Broccoli-id7249494
+- Goodpods: https://goodpods.com/podcasts/pixel-broccoli-734581
+- RSS Feed: https://anchor.fm/s/1129acc30/podcast/rss
+
+## Social
+
+- X / Twitter: https://x.com/PixelBroccoli
+- YouTube: https://www.youtube.com/@PixelBroccoli
+- Website: https://pixelbroccoli.com
+- Email: pixelbrocolipodcast@gmail.com

@@ -1,4 +1,32 @@
 User-agent: *
 Allow: /
 
+# AI crawlers — explicitly allowed for GEO indexing
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: GoogleExtended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Grokbot
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
 Sitemap: https://pixelbroccoli.com/sitemap.xml
