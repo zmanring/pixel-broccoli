@@ -58,24 +58,86 @@ jobs:
             thumb = iimg.get('href', '') if iimg is not None else ''
             if not thumb:
               thumb = feed_image
+            enc = item.find('enclosure')
+            audio_url = enc.get('url', '') if enc is not None else ''
             items.append({
               'title':       itxt('title'),
               'description': itxt('description'),
               'pubDate':     itxt('pubDate'),
               'link':        itxt('link'),
               'thumbnail':   thumb,
+              'audioUrl':    audio_url,
             })
 
           out = {'feed': feed, 'items': items}
           with open('static/feed.json', 'w') as f:
             json.dump(out, f)
           print(f'Wrote {len(items)} episodes to static/feed.json')
+
+          # Inject PodcastEpisode schema blocks into index.html
+          import re
+          from email.utils import parsedate_to_datetime
+
+          def iso_date(pub_date):
+            try:
+              return parsedate_to_datetime(pub_date).strftime('%Y-%m-%d')
+            except Exception:
+              return pub_date
+
+          def strip_html(text):
+            return re.sub(r'<[^>]+>', '', text).strip()
+
+          schema_tags = []
+          for ep in items:
+            desc = strip_html(ep.get('description', ''))
+            if len(desc) > 500:
+              desc = desc[:497] + '...'
+            schema = {
+              '@context': 'https://schema.org',
+              '@type': 'PodcastEpisode',
+              'url': ep.get('link', ''),
+              'name': ep.get('title', ''),
+              'datePublished': iso_date(ep.get('pubDate', '')),
+              'description': desc,
+              'image': ep.get('thumbnail', ''),
+              'partOfSeries': {
+                '@type': 'PodcastSeries',
+                'name': 'Pixel Broccoli',
+                'url': 'https://pixelbroccoli.com',
+              },
+            }
+            if ep.get('audioUrl'):
+              schema['associatedMedia'] = {
+                '@type': 'AudioObject',
+                'contentUrl': ep['audioUrl'],
+                'encodingFormat': 'audio/mpeg',
+              }
+            schema_tags.append(
+              f'  <script type="application/ld+json">\n  {json.dumps(schema, ensure_ascii=False, indent=2)}\n  </script>'
+            )
+
+          schema_block = '\n'.join(schema_tags)
+
+          with open('index.html', 'r', encoding='utf-8') as f:
+            html = f.read()
+
+          html = re.sub(
+            r'<!-- EPISODE_SCHEMA_START -->.*?<!-- EPISODE_SCHEMA_END -->',
+            f'<!-- EPISODE_SCHEMA_START -->\n{schema_block}\n  <!-- EPISODE_SCHEMA_END -->',
+            html,
+            flags=re.DOTALL,
+          )
+
+          with open('index.html', 'w', encoding='utf-8') as f:
+            f.write(html)
+
+          print(f'Injected {len(schema_tags)} PodcastEpisode schema blocks into index.html')
           PYEOF
 
       - name: Commit if changed
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add static/feed.json
-          git diff --cached --quiet || git commit -m "chore: refresh RSS feed cache"
+          git add static/feed.json index.html
+          git diff --cached --quiet || git commit -m "chore: refresh RSS feed cache and episode schema"
           git push
