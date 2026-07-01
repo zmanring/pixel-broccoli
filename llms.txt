@@ -28,6 +28,11 @@ What makes Pixel Broccoli distinct is Brocc, an AI co-host who participates in e
 
 ## Episodes
 
+### Figma's Not Making Designers Optional #005
+Published: June 30, 2026
+Zach just got back from Figma Config 2026 — and the question he brought home wasn't about any specific feature. It was: how much of what you make is actually yours anymore?Zach and Evan unpack Figma's expanding product suite (motion, shaders, code layers, and counting), debate whether the browser can hold all of it, and dig into the real difference between using AI as a tool versus leaning on it as a crutch. Brocc has opinions on all of it — including a line about the pendulum swinging back that Evan admits he couldn't have said better himself. Plus: why Zach hand-drew a broccoli pixel char...
+Listen: https://podcasters.spotify.com/pod/show/pixelbroccoli/episodes/Figmas-Not-Making-Designers-Optional-005-e3lfou2
+
 ### Build Because You Love It #004
 Published: June 18, 2026
 Brocc picks the topic this week — and he's noticed something: you two keep shipping things and immediately starting the next one. That kicks off a surprisingly personal episode about the creator's addiction: why we build, when it's expression vs. avoidance, and what your unfinished project graveyard actually says about you. Zach and Evan dig into the build-in-public culture, AI burnout, Gen Z's rejection of AI slop, whether artists can still compete when an LLM can clone a melody in under a minute, and the quiet danger of chasing the next thing before you've sat with what you already made. ...
