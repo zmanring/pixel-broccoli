@@ -74,31 +74,41 @@ jobs:
             json.dump(out, f)
           print(f'Wrote {len(items)} episodes to static/feed.json')
 
-          # Resolve latest Spotify episode ID by scraping the show page
+          # Resolve latest video embed from YouTube public RSS feed
           import re
           latest_embed_src = 'https://open.spotify.com/embed/show/033gFTqCwsukpXM8B1ruUm?utm_source=generator'
           try:
-            req2 = urllib.request.Request(
-              'https://open.spotify.com/show/033gFTqCwsukpXM8B1ruUm',
-              headers={
-                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                'Accept-Language': 'en-US,en;q=0.5',
-              }
+            # Get channel ID from YouTube handle page
+            yt_req = urllib.request.Request(
+              'https://www.youtube.com/@PixelBroccoli',
+              headers={'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'}
             )
-            with urllib.request.urlopen(req2, timeout=15) as r2:
-              page_html = r2.read().decode('utf-8', errors='replace')
-            m = re.search(r'"uri"\s*:\s*"spotify:episode:([A-Za-z0-9]+)"', page_html)
-            if not m:
-              m = re.search(r'open\.spotify\.com/episode/([A-Za-z0-9]+)', page_html)
-            if m:
-              ep_id = m.group(1)
-              latest_embed_src = f'https://open.spotify.com/embed/episode/{ep_id}/video?utm_source=generator'
-              print(f'Resolved video embed: episode {ep_id}')
+            with urllib.request.urlopen(yt_req, timeout=15) as yt_r:
+              yt_html = yt_r.read().decode('utf-8', errors='replace')
+            ch_m = re.search(r'"channelId"\s*:\s*"(UC[A-Za-z0-9_-]+)"', yt_html)
+            if not ch_m:
+              ch_m = re.search(r'<meta itemprop="channelId" content="(UC[A-Za-z0-9_-]+)"', yt_html)
+            if ch_m:
+              channel_id = ch_m.group(1)
+              print(f'Found YouTube channel ID: {channel_id}')
+              # Fetch YouTube channel RSS feed
+              yt_rss_req = urllib.request.Request(
+                f'https://www.youtube.com/feeds/videos.xml?channel_id={channel_id}',
+                headers={'User-Agent': 'Mozilla/5.0'}
+              )
+              with urllib.request.urlopen(yt_rss_req, timeout=15) as rss_r:
+                yt_xml = rss_r.read().decode('utf-8', errors='replace')
+              vid_m = re.search(r'<yt:videoId>([A-Za-z0-9_-]+)</yt:videoId>', yt_xml)
+              if vid_m:
+                yt_video_id = vid_m.group(1)
+                latest_embed_src = f'https://www.youtube.com/embed/{yt_video_id}?rel=0'
+                print(f'Using YouTube embed: {yt_video_id}')
+              else:
+                print('No video ID in YouTube RSS, using Spotify show embed')
             else:
-              print('No episode ID found in show page, using show embed')
+              print('Could not find YouTube channel ID, using Spotify show embed')
           except Exception as e:
-            print(f'Show page scrape failed ({e}), using show embed')
+            print(f'YouTube lookup failed ({e}), using Spotify show embed')
 
           # Inject PodcastEpisode schema blocks into index.html
           from email.utils import parsedate_to_datetime
