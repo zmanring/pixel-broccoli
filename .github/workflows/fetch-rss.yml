@@ -78,35 +78,19 @@ jobs:
           import re
           latest_embed_src = 'https://open.spotify.com/embed/show/033gFTqCwsukpXM8B1ruUm?utm_source=generator'
           try:
-            # Get channel ID from YouTube handle page
-            yt_req = urllib.request.Request(
-              'https://www.youtube.com/@PixelBroccoli',
-              headers={'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'}
+            yt_rss_req = urllib.request.Request(
+              'https://www.youtube.com/feeds/videos.xml?channel_id=UCxvaEa6E6v30FPloZCbPsCQ',
+              headers={'User-Agent': 'Mozilla/5.0'}
             )
-            with urllib.request.urlopen(yt_req, timeout=15) as yt_r:
-              yt_html = yt_r.read().decode('utf-8', errors='replace')
-            ch_m = re.search(r'"channelId"\s*:\s*"(UC[A-Za-z0-9_-]+)"', yt_html)
-            if not ch_m:
-              ch_m = re.search(r'<meta itemprop="channelId" content="(UC[A-Za-z0-9_-]+)"', yt_html)
-            if ch_m:
-              channel_id = ch_m.group(1)
-              print(f'Found YouTube channel ID: {channel_id}')
-              # Fetch YouTube channel RSS feed
-              yt_rss_req = urllib.request.Request(
-                f'https://www.youtube.com/feeds/videos.xml?channel_id={channel_id}',
-                headers={'User-Agent': 'Mozilla/5.0'}
-              )
-              with urllib.request.urlopen(yt_rss_req, timeout=15) as rss_r:
-                yt_xml = rss_r.read().decode('utf-8', errors='replace')
-              vid_m = re.search(r'<yt:videoId>([A-Za-z0-9_-]+)</yt:videoId>', yt_xml)
-              if vid_m:
-                yt_video_id = vid_m.group(1)
-                latest_embed_src = f'https://www.youtube.com/embed/{yt_video_id}?rel=0'
-                print(f'Using YouTube embed: {yt_video_id}')
-              else:
-                print('No video ID in YouTube RSS, using Spotify show embed')
+            with urllib.request.urlopen(yt_rss_req, timeout=15) as rss_r:
+              yt_xml = rss_r.read().decode('utf-8', errors='replace')
+            vid_m = re.search(r'<yt:videoId>([A-Za-z0-9_-]+)</yt:videoId>', yt_xml)
+            if vid_m:
+              yt_video_id = vid_m.group(1)
+              latest_embed_src = f'https://www.youtube.com/embed/{yt_video_id}?rel=0'
+              print(f'Using YouTube embed: {yt_video_id}')
             else:
-              print('Could not find YouTube channel ID, using Spotify show embed')
+              print('No video ID in YouTube RSS, using Spotify show embed')
           except Exception as e:
             print(f'YouTube lookup failed ({e}), using Spotify show embed')
 
