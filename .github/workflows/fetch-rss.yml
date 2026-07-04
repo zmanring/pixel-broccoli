@@ -74,6 +74,25 @@ jobs:
             json.dump(out, f)
           print(f'Wrote {len(items)} episodes to static/feed.json')
 
+          # Resolve latest Spotify episode ID by following the RSS link redirect
+          latest_embed_src = 'https://open.spotify.com/embed/show/033gFTqCwsukpXM8B1ruUm?utm_source=generator'
+          if items:
+            try:
+              ep_link = items[0].get('link', '')
+              if ep_link:
+                req2 = urllib.request.Request(ep_link, headers={'User-Agent': 'Mozilla/5.0'})
+                with urllib.request.urlopen(req2, timeout=10) as r2:
+                  final_url = r2.url
+                m = re.search(r'open\.spotify\.com/episode/([A-Za-z0-9]+)', final_url)
+                if m:
+                  ep_id = m.group(1)
+                  latest_embed_src = f'https://open.spotify.com/embed/episode/{ep_id}/video?utm_source=generator'
+                  print(f'Resolved video embed: episode {ep_id}')
+                else:
+                  print(f'No episode ID in redirect URL ({final_url}), using show embed')
+            except Exception as e:
+              print(f'Redirect follow failed ({e}), using show embed')
+
           # Inject PodcastEpisode schema blocks into index.html
           import re
           from email.utils import parsedate_to_datetime
@@ -126,6 +145,12 @@ jobs:
             f'<!-- EPISODE_SCHEMA_START -->\n{schema_block}\n  <!-- EPISODE_SCHEMA_END -->',
             html,
             flags=re.DOTALL,
+          )
+
+          html = re.sub(
+            r'(id="latest-ep-iframe"[\s\S]*?src=")[^"]*(")',
+            rf'\g<1>{latest_embed_src}\g<2>',
+            html,
           )
 
           with open('index.html', 'w', encoding='utf-8') as f:

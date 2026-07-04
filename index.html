@@ -1446,6 +1446,16 @@ async function loadFeed() {
 
 loadFeed();
 
+// Match embed container height to embed type
+(function() {
+  const iframe = document.getElementById('latest-ep-iframe');
+  const wrap = iframe && iframe.closest('.video-embed-wrap');
+  if (wrap && iframe.src.includes('/embed/show/')) {
+    wrap.style.aspectRatio = 'unset';
+    wrap.style.height = '352px';
+  }
+})();
+
 function openShortModal(card) {
   document.getElementById('shorts-iframe').src = card.dataset.spotifyUrl;
   document.getElementById('shorts-modal').classList.add('open');
