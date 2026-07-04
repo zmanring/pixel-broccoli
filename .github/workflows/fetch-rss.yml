@@ -79,7 +79,7 @@ jobs:
           latest_embed_src = 'https://open.spotify.com/embed/show/033gFTqCwsukpXM8B1ruUm?utm_source=generator'
           try:
             yt_rss_req = urllib.request.Request(
-              'https://www.youtube.com/feeds/videos.xml?channel_id=UCxvaEa6E6v30FPloZCbPsCQ',
+              'https://www.youtube.com/feeds/videos.xml?playlist_id=PLIrCbkJzJFud1bNGZwB8-NnLga6fRTm7e',
               headers={'User-Agent': 'Mozilla/5.0'}
             )
             with urllib.request.urlopen(yt_rss_req, timeout=15) as rss_r:
