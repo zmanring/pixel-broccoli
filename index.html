@@ -1052,7 +1052,7 @@
     <iframe id="latest-ep-iframe"
       title="Latest Pixel Broccoli episode"
       style="border-radius:12px"
-      src="https://open.spotify.com/embed/episode/0DrplK5qHYNT7WLSunETIV/video?utm_source=generator"
+      src="https://open.spotify.com/embed/show/033gFTqCwsukpXM8B1ruUm?utm_source=generator"
       allowfullscreen=""
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
       loading="lazy">
@@ -1373,14 +1373,6 @@ async function loadFeed() {
       catch(e) { errors.push(e.message); }
     }
     if (!data) throw new Error('All proxies failed: ' + errors.join(', '));
-
-    // ── Latest video embed ───────────────────────────
-    const latestLink = data.items?.[0]?.link || '';
-    const epId = latestLink.match(/episode\/([A-Za-z0-9]+)/)?.[1];
-    if (epId) {
-      const iframe = document.getElementById('latest-ep-iframe');
-      if (iframe) iframe.src = `https://open.spotify.com/embed/episode/${epId}/video?utm_source=generator`;
-    }
 
     // ── Populate About ──────────────────────────────
     const feed = data.feed;
