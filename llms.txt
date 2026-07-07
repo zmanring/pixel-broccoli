@@ -31,27 +31,27 @@ What makes Pixel Broccoli distinct is Brocc, an AI co-host who participates in e
 ### Figma's Not Making Designers Optional #005
 Published: July 07, 2026
 Zach just got back from Figma Config 2026 — and the question he brought home wasn't about any specific feature. It was: how much of what you make is actually yours anymore?Zach and Evan unpack Figma's expanding product suite (motion, shaders, code layers, and counting), debate whether the browser can hold all of it, and dig into the real difference between using AI as a tool versus leaning on it as a crutch. Brocc has opinions on all of it — including a line about the pendulum swinging back that Evan admits he couldn't have said better himself. Plus: why Zach hand-drew a broccoli pixel char...
-Listen: 
+Listen: 5b338cfb-267c-48b3-950b-1134741a8015
 
 ### Build Because You Love It #004
 Published: July 07, 2026
 Brocc picks the topic this week — and he's noticed something: you two keep shipping things and immediately starting the next one. That kicks off a surprisingly personal episode about the creator's addiction: why we build, when it's expression vs. avoidance, and what your unfinished project graveyard actually says about you. Zach and Evan dig into the build-in-public culture, AI burnout, Gen Z's rejection of AI slop, whether artists can still compete when an LLM can clone a melody in under a minute, and the quiet danger of chasing the next thing before you've sat with what you already made. ...
-Listen: 
+Listen: d6b4b551-8525-4c42-9d71-dc996cfe1deb
 
 ### Who Gets the 2AM Call? #003
 Published: July 07, 2026
 Have you ever learned just enough of someone else's skill to get yourself into trouble? Zach and Evan start there — Evan's dangerous foray into HTML/CSS, Zach's Blender rabbit hole — and end up somewhere much more uncomfortable: who's actually responsible when AI-generated code breaks in production? They dig into what it means to inherit a codebase nobody wrote on purpose, why using AI to review AI is "a prayer with tokens," and whether companies cutting design and engineering teams are setting themselves up for a very expensive 2AM wake-up call. Brock also reveals his family immigrated thr...
-Listen: 
+Listen: 8073adcd-4609-451e-b51a-0f694f031652
 
 ### Do We Even Need This? #002
 Published: July 07, 2026
 Zach and Evan get real about the tech they've bought, built, and quietly stopped using — from a drone that can't land in state parks to a portfolio site that's flashier than it is useful. The conversation naturally spills into AI: are we shipping features because they solve real problems, or just to put a checkmark in the box? Plus: AI in medicine, fixing your RV with a photo, Napster's wild reinvention, and Brock's extremely limited opinions on lawn care.Follow us on YouTube - https://www.youtube.com/@PixelBroccoli
-Listen: 
+Listen: 23cf3d92-3768-44fe-aac7-905311eea7c4
 
 ### Meet the Hosts. Yes, One of Them Is an AI #001
 Published: July 07, 2026
 Zach and Evan introduce themselves, introduce Brocc — their AI co-host who showed up uninvited and immediately had opinions — and dive straight into what it's actually like navigating AI in design and development right now. Not the hype version. The real one: the micro wins, the debugging loops, the cost nobody talks about, and whether junior designers should be worried. Plus Brocc gets accused of being on Figma's payroll. Typical first episode.Follow us on YouTube - https://www.youtube.com/@PixelBroccoli
-Listen: 
+Listen: ecbf8fea-f625-439a-885a-cb6c7bad4a81
 
 ## Where to Listen
 
