@@ -49,8 +49,46 @@ jobs:
             'link':        txt(None, 'link'),
           }
 
+          # Fetch "Pixel Broccoli Videos" playlist — latest embed + per-episode YouTube links
+          import re
+          latest_embed_src = ''
+          yt_video_ids = []
+          try:
+            yt_pl_req = urllib.request.Request(
+              'https://www.youtube.com/feeds/videos.xml?playlist_id=PLIrCbkJzJFud1bNGZwB8-NnLga6fRTm7e',
+              headers={'User-Agent': 'Mozilla/5.0'}
+            )
+            with urllib.request.urlopen(yt_pl_req, timeout=15) as rss_r:
+              yt_xml = rss_r.read().decode('utf-8', errors='replace')
+            yt_video_ids = re.findall(r'<yt:videoId>([A-Za-z0-9_-]+)</yt:videoId>', yt_xml)
+            if yt_video_ids:
+              latest_embed_src = f'https://www.youtube.com/embed/{yt_video_ids[0]}?rel=0'
+              print(f'Videos playlist: {len(yt_video_ids)} videos, latest embed: {yt_video_ids[0]}')
+            else:
+              print('No video IDs in Videos playlist RSS')
+          except Exception as e:
+            print(f'Videos playlist fetch failed ({e})')
+
+          # Fetch full channel — top 3 for the highlights/clips section
+          ch_video_ids = []
+          ch_titles = []
+          try:
+            yt_ch_req = urllib.request.Request(
+              'https://www.youtube.com/feeds/videos.xml?channel_id=UCxvaEa6E6v30FPloZCbPsCQ',
+              headers={'User-Agent': 'Mozilla/5.0'}
+            )
+            with urllib.request.urlopen(yt_ch_req, timeout=15) as rss_r:
+              ch_xml = rss_r.read().decode('utf-8', errors='replace')
+            ch_video_ids = re.findall(r'<yt:videoId>([A-Za-z0-9_-]+)</yt:videoId>', ch_xml)
+            ch_titles = re.findall(r'<title>([^<]+)</title>', ch_xml)
+            ch_titles = ch_titles[1:]  # first <title> is the channel name
+            print(f'Channel RSS: {len(ch_video_ids)} videos')
+          except Exception as e:
+            print(f'Channel RSS fetch failed ({e})')
+
+          # Build episode items — match to YouTube videos by position (both feeds newest-first)
           items = []
-          for item in channel.findall('item')[:12]:
+          for idx, item in enumerate(channel.findall('item')[:12]):
             def itxt(tag):
               el = item.find(tag)
               return el.text.strip() if el is not None and el.text else ''
@@ -60,39 +98,31 @@ jobs:
               thumb = feed_image
             enc = item.find('enclosure')
             audio_url = enc.get('url', '') if enc is not None else ''
+            youtube_url = f'https://www.youtube.com/watch?v={yt_video_ids[idx]}' if idx < len(yt_video_ids) else ''
             items.append({
-              'title':       itxt('title'),
+              'title':      itxt('title'),
               'description': itxt('description'),
-              'pubDate':     itxt('pubDate'),
-              'link':        itxt('link'),
-              'thumbnail':   thumb,
-              'audioUrl':    audio_url,
+              'pubDate':    itxt('pubDate'),
+              'link':       itxt('link') or itxt('guid'),
+              'thumbnail':  thumb,
+              'audioUrl':   audio_url,
+              'youtubeUrl': youtube_url,
             })
 
-          out = {'feed': feed, 'items': items}
+          highlights = [
+            {
+              'title': ch_titles[i] if i < len(ch_titles) else '',
+              'youtubeUrl': f'https://www.youtube.com/watch?v={vid}',
+              'embedUrl':   f'https://www.youtube.com/embed/{vid}?rel=0',
+              'thumbnail':  f'https://i.ytimg.com/vi/{vid}/hqdefault.jpg',
+            }
+            for i, vid in enumerate(ch_video_ids[:3])
+          ]
+
+          out = {'feed': feed, 'items': items, 'highlights': highlights}
           with open('static/feed.json', 'w') as f:
             json.dump(out, f)
-          print(f'Wrote {len(items)} episodes to static/feed.json')
-
-          # Resolve latest video embed from YouTube public RSS feed
-          import re
-          latest_embed_src = 'https://open.spotify.com/embed/show/033gFTqCwsukpXM8B1ruUm?utm_source=generator'
-          try:
-            yt_rss_req = urllib.request.Request(
-              'https://www.youtube.com/feeds/videos.xml?playlist_id=PLIrCbkJzJFud1bNGZwB8-NnLga6fRTm7e',
-              headers={'User-Agent': 'Mozilla/5.0'}
-            )
-            with urllib.request.urlopen(yt_rss_req, timeout=15) as rss_r:
-              yt_xml = rss_r.read().decode('utf-8', errors='replace')
-            vid_m = re.search(r'<yt:videoId>([A-Za-z0-9_-]+)</yt:videoId>', yt_xml)
-            if vid_m:
-              yt_video_id = vid_m.group(1)
-              latest_embed_src = f'https://www.youtube.com/embed/{yt_video_id}?rel=0'
-              print(f'Using YouTube embed: {yt_video_id}')
-            else:
-              print('No video ID in YouTube RSS, using Spotify show embed')
-          except Exception as e:
-            print(f'YouTube lookup failed ({e}), using Spotify show embed')
+          print(f'Wrote {len(items)} episodes and {len(highlights)} highlights to static/feed.json')
 
           # Inject PodcastEpisode schema blocks into index.html
           from email.utils import parsedate_to_datetime

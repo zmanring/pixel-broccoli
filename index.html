@@ -796,45 +796,40 @@
       background-image: var(--grid-overlay);
       background-size: var(--grid-size);
     }
-    .short-card { cursor: pointer; }
-    .short-overlay {
-      position: absolute; top: 50%; bottom: 0; left: 0; right: 0;
-      padding: 10px 24px;
-      background: linear-gradient(to bottom, transparent 0%, rgba(6,16,43,0.92) 100%);
-      display: flex; flex-direction: column; justify-content: flex-end;
-    }
-    .short-label {
-      font-family: var(--font-pixel); font-size: 0.62rem;
-      color: var(--accent); letter-spacing: 0.08em;
-      text-shadow: 0 0 8px rgba(8,215,169,0.5);
-    }
-    .short-duration {
-      font-family: var(--font-body); font-size: 0.78rem;
-      color: var(--text);
-    }
-    .shorts-modal-backdrop {
+
+    /* ─────────────────── VIDEO MODAL ─────────────────── */
+    .video-modal-backdrop {
       display: none; position: fixed; inset: 0; z-index: 500;
       background: rgba(6,16,43,0.92);
       align-items: center; justify-content: center;
     }
-    .shorts-modal-backdrop.open { display: flex; }
-    .shorts-modal-box {
+    .video-modal-backdrop.open { display: flex; }
+    .video-modal-box {
       background: var(--surface2);
       border: 1px solid rgba(196,45,215,0.4);
       box-shadow: 0 0 40px rgba(196,45,215,0.2);
-      padding: 20px;
-      width: min(520px, 92vw);
+      padding: 20px; width: min(820px, 92vw);
       display: flex; flex-direction: column; gap: 14px;
     }
-    .shorts-modal-close {
+    .video-modal-close {
       font-family: var(--font-pixel); font-size: 0.58rem;
       color: var(--text-dim); background: none;
       border: 1px solid var(--surface3); padding: 8px 14px;
       cursor: pointer; align-self: flex-end; letter-spacing: 0.06em;
       transition: color .15s, border-color .15s;
     }
-    .shorts-modal-close:hover { color: var(--accent); border-color: var(--accent); }
-
+    .video-modal-close:hover { color: var(--accent); border-color: var(--accent); }
+    .video-modal-embed { position: relative; aspect-ratio: 16/9; width: 100%; }
+    .video-modal-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; border-radius: 6px; }
+    /* ─────────────────── PLAY OVERLAY ─────────────────── */
+    .ep-thumb-wrap { position: relative; cursor: pointer; }
+    .yt-play-btn {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity .2s;
+    }
+    .yt-play-btn svg { width: 56px; height: 40px; filter: drop-shadow(0 2px 10px rgba(0,0,0,0.8)); }
+    .ep-card:hover .yt-play-btn { opacity: 1; }
     /* ─────────────────── LISTEN / PLATFORMS ─────────────────── */
     #listen {
       background-color: var(--bg);
@@ -1155,62 +1150,9 @@
 <!-- ══════════════════ SHORTS ══════════════════ -->
 <div id="shorts">
   <div class="section-wrap">
-    <p class="section-eyebrow">// QUICK HITS</p>
-    <h2 class="section-title teal">EPISODE HIGHLIGHTS</h2>
-    <div class="ep-grid">
-
-      <!-- Short 1 -->
-      <div class="ep-card short-card"
-           role="button" tabindex="0"
-           data-spotify-url="https://open.spotify.com/embed/episode/6UbRUT2AeP0MlUsgGB77QW?t=1263"
-           onclick="openShortModal(this)"
-           onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openShortModal(this);}">
-        <div class="ep-thumb-wrap" style="background: url('static/assets/Shorts_Image.jpg') center/cover; position: relative;">
-          <div class="short-overlay">
-            <div class="short-label">BROCC'S HIGHLIGHT</div>
-          </div>
-        </div>
-        <div class="ep-body">
-          <div class="ep-title">AI reviewing AI, a prayer with tokens</div>
-          <button class="ep-listen" onclick="event.stopPropagation(); openShortModal(this.closest('[data-spotify-url]'))">▶ PLAY HIGHLIGHT</button>
-        </div>
-      </div>
-
-      <!-- Short 2 -->
-      <div class="ep-card short-card"
-           role="button" tabindex="0"
-           data-spotify-url="https://open.spotify.com/embed/episode/6UbRUT2AeP0MlUsgGB77QW?t=1141"
-           onclick="openShortModal(this)"
-           onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openShortModal(this);}">
-        <div class="ep-thumb-wrap" style="background: url('static/assets/Zach_Highlight.jpg') center/cover; position: relative;">
-          <div class="short-overlay">
-            <div class="short-label">ZACH'S HIGHLIGHT</div>
-          </div>
-        </div>
-        <div class="ep-body">
-          <div class="ep-title">Remove LLM Bias</div>
-          <button class="ep-listen" onclick="event.stopPropagation(); openShortModal(this.closest('[data-spotify-url]'))">▶ PLAY HIGHLIGHT</button>
-        </div>
-      </div>
-
-      <!-- Short 3 -->
-      <div class="ep-card short-card"
-           role="button" tabindex="0"
-           data-spotify-url="https://open.spotify.com/embed/episode/6UbRUT2AeP0MlUsgGB77QW?t=1439"
-           onclick="openShortModal(this)"
-           onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openShortModal(this);}">
-        <div class="ep-thumb-wrap" style="background: url('static/assets/Evan_Highlight.jpg') center/cover; position: relative;">
-          <div class="short-overlay">
-            <div class="short-label">EVAN'S HIGHLIGHT</div>
-          </div>
-        </div>
-        <div class="ep-body">
-          <div class="ep-title">Vibe Coding Templates</div>
-          <button class="ep-listen" onclick="event.stopPropagation(); openShortModal(this.closest('[data-spotify-url]'))">▶ PLAY HIGHLIGHT</button>
-        </div>
-      </div>
-
-    </div>
+    <p class="section-eyebrow">// LATEST FROM YOUTUBE</p>
+    <h2 class="section-title teal">WATCH ON YOUTUBE</h2>
+    <div id="highlights-container" class="ep-grid"></div>
   </div>
 </div>
 
@@ -1260,20 +1202,22 @@
 </footer>
 
 
-<!-- ══════════════════ SHORTS MODAL ══════════════════ -->
-<div id="shorts-modal" class="shorts-modal-backdrop" onclick="handleModalBackdropClick(event)">
-  <div class="shorts-modal-box">
-    <button class="shorts-modal-close" onclick="closeShortModal()">✕ CLOSE</button>
-    <iframe id="shorts-iframe"
-            title="Episode highlight player"
-            src=""
-            width="100%" height="152"
-            style="border:none;display:block;"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"></iframe>
+
+
+<!-- ══════════════════ VIDEO MODAL ══════════════════ -->
+<div id="video-modal" class="video-modal-backdrop" onclick="handleVideoModalClick(event)">
+  <div class="video-modal-box">
+    <button class="video-modal-close" onclick="closeVideoModal()">✕ CLOSE</button>
+    <div class="video-modal-embed">
+      <iframe id="video-modal-iframe"
+              title="Video player"
+              src=""
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              allowfullscreen
+              loading="lazy"></iframe>
+    </div>
   </div>
 </div>
-
 
 <script>
 /* ═══════════════════════════════════════════════════
@@ -1401,17 +1345,29 @@ async function loadFeed() {
     const grid = document.createElement('div');
     grid.className = 'ep-grid';
 
+    const playIcon = `<svg viewBox="0 0 68 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="68" height="48" rx="10" fill="#FF0000" fill-opacity="0.9"/>
+      <path d="M27 14l22 10-22 10V14z" fill="white"/>
+    </svg>`;
+
     items.forEach((item, idx) => {
-      const thumb   = item.thumbnail || item.enclosure?.thumbnail || feed.image || '';
-      const epNum   = `EP. ${String(items.length - idx).padStart(2,'0')}`;
-      const desc    = stripHtml(item.description || item.content || '');
-      const card    = document.createElement('div');
+      const videoId  = item.youtubeUrl ? new URL(item.youtubeUrl).searchParams.get('v') : null;
+      const embedUrl = videoId ? `https://www.youtube.com/embed/${videoId}?rel=0` : null;
+      const thumb    = videoId
+        ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`
+        : (item.thumbnail || feed.image || '');
+      const epNum    = `EP. ${String(items.length - idx).padStart(2,'0')}`;
+      const desc     = stripHtml(item.description || item.content || '');
+      const card     = document.createElement('div');
       card.className = 'ep-card';
+      if (embedUrl) card.style.cursor = 'pointer';
+      if (embedUrl) card.addEventListener('click', () => openVideoModal(embedUrl));
 
       card.innerHTML = `
         <div class="ep-thumb-wrap">
           ${thumb
-            ? `<img src="${thumb}" alt="${item.title}" loading="lazy">`
+            ? `<img src="${thumb}" alt="${item.title}" loading="lazy">
+               ${embedUrl ? `<div class="yt-play-btn">${playIcon}</div>` : ''}`
             : `<div class="ep-thumb-placeholder">
                 <svg viewBox="0 0 1041 904" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M443.525 34.0482L614.007 34.0576L614.027 59.5038L639.483 59.5008L639.468 85.4819L664.944 85.4799L664.969 213.031L682.536 213.027V179L691.091 179.019L690.999 136.49L716.542 136.526V111.02L799.618 110.994C814.166 110.996 829.999 110.675 844.466 111.045L844.46 136.521L869.982 136.507L870.033 162.064C878.481 162.075 887.102 162.002 895.534 162.104V187.552L921.005 187.546L920.99 255.955L886.98 255.983L887.005 281.558L955.001 281.542L955.036 307.05L981 307.069L981.021 332.519L1006.48 332.515L1006.47 468.928L980.995 468.952L980.985 494.506L955.026 494.47L955.001 520.034L929.56 520.049L929.509 546.005L886.98 546.02L886.97 562.941L776.089 562.946L776.048 545.995L742.079 546.02L742.048 520.024L716.552 520.029L716.547 494.487L648.023 494.469L648.002 520.034L614.002 520.044L613.982 546.015L452.008 546.02L451.968 520.024L401.057 520.039L401.035 494.476L341.021 494.465L341.002 520.034L323.926 520.044L323.901 546.01L281.553 546.03L281.524 562.931L162.083 562.951L162.05 545.99L85.4647 546.005L85.4718 494.483L34.0352 494.463L34.0508 323.993L59.5017 323.991L59.4967 298.486L85.4668 298.488L85.4632 281.554L145.028 281.576L144.973 170.463L162.089 170.506L162.067 144.991L187.524 144.979L187.535 119.498L213.023 119.511L213.008 94.0445L341.014 94.0547L341.045 119.5L366.498 119.502L366.486 144.975L392.465 144.987L392.479 85.4778L418.049 85.4956L443.516 59.5008L443.525 34.0482Z" fill="#1CB25C"/>
@@ -1425,7 +1381,9 @@ async function loadFeed() {
           <div class="ep-title">${item.title || 'Untitled'}</div>
           ${item.pubDate ? `<div class="ep-date">${formatDate(item.pubDate)}</div>` : ''}
           ${desc ? `<div class="ep-desc">${desc.substring(0, 220)}${desc.length > 220 ? '…' : ''}</div>` : ''}
-          <a class="ep-listen" href="${item.link || '#'}" target="_blank" rel="noopener">▶ LISTEN NOW</a>
+          ${embedUrl
+            ? `<button class="ep-listen" onclick="event.stopPropagation(); openVideoModal('${embedUrl}')">▶ WATCH NOW</button>`
+            : `<a class="ep-listen" href="${item.link || item.audioUrl || '#'}" target="_blank" rel="noopener">▶ LISTEN NOW</a>`}
         </div>`;
 
       grid.appendChild(card);
@@ -1446,31 +1404,52 @@ async function loadFeed() {
 
 loadFeed();
 
-// Match embed container height to embed type
-(function() {
-  const iframe = document.getElementById('latest-ep-iframe');
-  const wrap = iframe && iframe.closest('.video-embed-wrap');
-  if (wrap && iframe.src.includes('/embed/show/')) {
-    wrap.style.aspectRatio = 'unset';
-    wrap.style.height = '352px';
-  }
-})();
 
-function openShortModal(card) {
-  document.getElementById('shorts-iframe').src = card.dataset.spotifyUrl;
-  document.getElementById('shorts-modal').classList.add('open');
-  document.querySelector('.shorts-modal-close').focus();
+async function loadHighlights() {
+  const container = document.getElementById('highlights-container');
+  const ytPlayIcon = `<svg viewBox="0 0 68 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="68" height="48" rx="10" fill="#FF0000" fill-opacity="0.9"/>
+    <path d="M27 14l22 10-22 10V14z" fill="white"/>
+  </svg>`;
+  try {
+    const res = await fetch('./static/feed.json');
+    if (!res.ok) throw new Error('feed.json ' + res.status);
+    const data = await res.json();
+    const highlights = data.highlights || [];
+    if (!highlights.length) {
+      container.innerHTML = '<p style="color:var(--text-dim);text-align:center;font-family:var(--font-pixel);font-size:.5rem;padding:32px;">No videos found.</p>';
+      return;
+    }
+    container.innerHTML = highlights.map(h => `
+      <div class="ep-card" style="cursor:pointer;" onclick="openVideoModal('${h.embedUrl}')">
+        <div class="ep-thumb-wrap">
+          <img src="${h.thumbnail}" alt="${h.title}" loading="lazy">
+          <div class="yt-play-btn">${ytPlayIcon}</div>
+        </div>
+        <div class="ep-body">
+          <div class="ep-title">${h.title}</div>
+          <button class="ep-listen" onclick="event.stopPropagation(); openVideoModal('${h.embedUrl}')">▶ WATCH NOW</button>
+        </div>
+      </div>`).join('');
+  } catch(e) {
+    container.innerHTML = `<p style="color:var(--text-dim);text-align:center;font-family:var(--font-body);font-size:0.875rem;padding:32px;">
+      <a href="https://www.youtube.com/@PixelBroccoli" target="_blank" style="color:var(--accent);">Watch on YouTube →</a></p>`;
+  }
 }
-function closeShortModal() {
-  document.getElementById('shorts-iframe').src = '';
-  document.getElementById('shorts-modal').classList.remove('open');
+loadHighlights();
+
+function openVideoModal(embedUrl) {
+  document.getElementById('video-modal-iframe').src = embedUrl + '&autoplay=1';
+  document.getElementById('video-modal').classList.add('open');
 }
-function handleModalBackdropClick(e) {
-  if (e.target === document.getElementById('shorts-modal')) closeShortModal();
+function closeVideoModal() {
+  document.getElementById('video-modal-iframe').src = '';
+  document.getElementById('video-modal').classList.remove('open');
 }
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeShortModal();
-});
+function handleVideoModalClick(e) {
+  if (e.target === document.getElementById('video-modal')) closeVideoModal();
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeVideoModal(); });
 </script>
 </body>
 </html>
