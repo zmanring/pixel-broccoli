@@ -69,12 +69,13 @@ jobs:
           except Exception as e:
             print(f'Videos playlist fetch failed ({e})')
 
-          # Fetch full channel — top 3 for the highlights/clips section
+          # Fetch Shorts-only playlist — top 3 for the highlights/clips section
+          # UUSH prefix is the Shorts shelf playlist for a channel (UC -> UUSH)
           ch_video_ids = []
           ch_titles = []
           try:
             yt_ch_req = urllib.request.Request(
-              'https://www.youtube.com/feeds/videos.xml?channel_id=UCxvaEa6E6v30FPloZCbPsCQ',
+              'https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHxvaEa6E6v30FPloZCbPsCQ',
               headers={'User-Agent': 'Mozilla/5.0'}
             )
             with urllib.request.urlopen(yt_ch_req, timeout=15) as rss_r:
@@ -82,9 +83,9 @@ jobs:
             ch_video_ids = re.findall(r'<yt:videoId>([A-Za-z0-9_-]+)</yt:videoId>', ch_xml)
             ch_titles = re.findall(r'<title>([^<]+)</title>', ch_xml)
             ch_titles = ch_titles[1:]  # first <title> is the channel name
-            print(f'Channel RSS: {len(ch_video_ids)} videos')
+            print(f'Shorts playlist RSS: {len(ch_video_ids)} shorts')
           except Exception as e:
-            print(f'Channel RSS fetch failed ({e})')
+            print(f'Shorts playlist RSS fetch failed ({e})')
 
           # Build episode items — match to YouTube videos by position (both feeds newest-first)
           items = []

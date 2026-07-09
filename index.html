@@ -513,6 +513,82 @@
       box-shadow: 0 0 28px rgba(196,45,215,0.5);
     }
 
+    /* ─────────────────── YOUTUBE CTA ─────────────────── */
+    .yt-subscribe-cta {
+      text-align: center;
+      padding: 60px 24px;
+      background: linear-gradient(135deg, rgba(255,0,0,0.05) 0%, transparent 70%);
+      border-top: 1px solid rgba(255,0,0,0.12);
+      border-bottom: 1px solid rgba(255,0,0,0.12);
+    }
+    .yt-cta-heading {
+      font-family: var(--font-pixel);
+      font-size: clamp(1rem, 4vw, 2rem);
+      color: #FF2222;
+      text-shadow: 0 0 24px rgba(255,0,0,0.5), 0 0 60px rgba(255,0,0,0.2);
+      margin: 12px 0 16px;
+      line-height: 1.4;
+    }
+    .yt-cta-sub {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--text-dim);
+      margin-bottom: 32px;
+    }
+    .btn-yt {
+      font-family: var(--font-pixel);
+      font-size: 0.7rem;
+      padding: 18px 40px;
+      background: #FF0000;
+      color: #fff;
+      border: 2px solid #FF0000;
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      display: inline-block;
+      transition: all .15s;
+      box-shadow: 0 0 20px rgba(255,0,0,0.35), inset 0 0 12px rgba(255,80,80,0.1);
+    }
+    .btn-yt:hover {
+      background: transparent;
+      color: #FF4444;
+      box-shadow: 0 0 40px rgba(255,0,0,0.6);
+    }
+
+    /* ─────────────────── SEE ALL LINKS ─────────────────── */
+    .see-all {
+      text-align: center;
+      margin-top: 40px;
+    }
+    .see-all a {
+      font-family: var(--font-pixel);
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-decoration: none;
+      padding: 12px 28px;
+      border: 1px solid;
+      display: inline-block;
+      transition: all .15s;
+    }
+    .see-all a:hover { box-shadow: 0 0 16px currentColor; }
+    .see-all--teal a {
+      color: var(--accent);
+      border-color: rgba(8,215,169,0.3);
+      background: rgba(8,215,169,0.04);
+    }
+    .see-all--teal a:hover {
+      border-color: var(--accent);
+      background: rgba(8,215,169,0.12);
+    }
+    .see-all--purple a {
+      color: var(--purple2);
+      border-color: rgba(196,45,215,0.3);
+      background: rgba(196,45,215,0.04);
+    }
+    .see-all--purple a:hover {
+      border-color: var(--purple2);
+      background: rgba(196,45,215,0.12);
+    }
+
     /* ─────────────────── LATEST VIDEO ─────────────────── */
     #latest-video {
       background-color: var(--bg);
@@ -817,6 +893,46 @@
       background-image: var(--grid-overlay);
       background-size: var(--grid-size);
     }
+    .shorts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .short-card {
+      background: var(--surface2);
+      border: 1px solid var(--surface3);
+      display: flex; flex-direction: column;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .short-card:hover {
+      border-color: rgba(196,45,215,0.4);
+      box-shadow: 0 0 20px rgba(196,45,215,0.08);
+    }
+    .short-thumb-wrap {
+      width: 100%; aspect-ratio: 9/16;
+      overflow: hidden; position: relative;
+      background: var(--surface3); cursor: pointer;
+    }
+    .short-thumb-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform .3s;
+    }
+    .short-card:hover .short-thumb-wrap img { transform: scale(1.04); }
+    .short-card:hover .yt-play-btn { opacity: 1; }
+    .short-thumb-wrap iframe {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; border: none;
+    }
+    .short-body { padding: 12px 14px; }
+    .short-title {
+      font-family: var(--font-pixel);
+      font-size: 0.6rem;
+      color: var(--text);
+      line-height: 1.8;
+    }
 
     /* ─────────────────── VIDEO MODAL ─────────────────── */
     .video-modal-backdrop {
@@ -1077,6 +1193,15 @@
 </div>
 
 
+<!-- ══════════════════ YOUTUBE SUBSCRIBE CTA ══════════════════ -->
+<div class="yt-subscribe-cta">
+  <p class="section-eyebrow">// FOLLOW THE SHOW</p>
+  <h2 class="yt-cta-heading">SUBSCRIBE ON YOUTUBE</h2>
+  <p class="yt-cta-sub">New episodes every week — full episodes, clips &amp; shorts.</p>
+  <a href="https://www.youtube.com/@PixelBroccoli?sub_confirmation=1" class="btn-yt" target="_blank" rel="noopener">▶ SUBSCRIBE FREE</a>
+</div>
+
+
 <!-- ══════════════════ ABOUT ══════════════════ -->
 <div id="about">
   <div class="section-wrap">
@@ -1162,6 +1287,9 @@
         LOADING FEED...
       </div>
     </div>
+    <div class="see-all see-all--purple">
+      <a href="https://www.youtube.com/@PixelBroccoli/videos" target="_blank" rel="noopener">▶ SEE ALL EPISODES ON YOUTUBE →</a>
+    </div>
   </div>
 </div>
 
@@ -1171,9 +1299,12 @@
 <!-- ══════════════════ SHORTS ══════════════════ -->
 <div id="shorts">
   <div class="section-wrap">
-    <p class="section-eyebrow">// LATEST FROM YOUTUBE</p>
-    <h2 class="section-title teal">WATCH ON YOUTUBE</h2>
-    <div id="highlights-container" class="ep-grid"></div>
+    <p class="section-eyebrow">// YOUTUBE SHORTS</p>
+    <h2 class="section-title teal">LATEST SHORTS</h2>
+    <div id="highlights-container" class="shorts-grid"></div>
+    <div class="see-all see-all--teal">
+      <a href="https://www.youtube.com/@PixelBroccoli/shorts" target="_blank" rel="noopener">▶ SEE ALL SHORTS ON YOUTUBE →</a>
+    </div>
   </div>
 </div>
 
@@ -1438,26 +1569,32 @@ async function loadHighlights() {
     const data = await res.json();
     const highlights = data.highlights || [];
     if (!highlights.length) {
-      container.innerHTML = '<p style="color:var(--text-dim);text-align:center;font-family:var(--font-pixel);font-size:.5rem;padding:32px;">No videos found.</p>';
+      container.innerHTML = '<p style="color:var(--text-dim);text-align:center;font-family:var(--font-pixel);font-size:.5rem;padding:32px;">No shorts found.</p>';
       return;
     }
     container.innerHTML = highlights.map(h => `
-      <div class="ep-card" style="cursor:pointer;" onclick="openVideoModal('${h.embedUrl}')">
-        <div class="ep-thumb-wrap">
+      <div class="short-card">
+        <div class="short-thumb-wrap" onclick="playShortInline(this, '${h.embedUrl}')">
           <img src="${h.thumbnail}" alt="${h.title}" loading="lazy">
           <div class="yt-play-btn">${ytPlayIcon}</div>
         </div>
-        <div class="ep-body">
-          <div class="ep-title">${h.title}</div>
-          <button class="ep-listen" onclick="event.stopPropagation(); openVideoModal('${h.embedUrl}')">▶ WATCH NOW</button>
+        <div class="short-body">
+          <div class="short-title">${h.title}</div>
         </div>
       </div>`).join('');
   } catch(e) {
     container.innerHTML = `<p style="color:var(--text-dim);text-align:center;font-family:var(--font-body);font-size:0.875rem;padding:32px;">
-      <a href="https://www.youtube.com/@PixelBroccoli" target="_blank" style="color:var(--accent);">Watch on YouTube →</a></p>`;
+      <a href="https://www.youtube.com/@PixelBroccoli/shorts" target="_blank" style="color:var(--accent);">Watch Shorts on YouTube →</a></p>`;
   }
 }
 loadHighlights();
+
+function playShortInline(thumbWrap, embedUrl) {
+  thumbWrap.innerHTML = `<iframe
+    src="${embedUrl}&autoplay=1"
+    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+    allowfullscreen></iframe>`;
+}
 
 function openVideoModal(embedUrl) {
   document.getElementById('video-modal-iframe').src = embedUrl + '&autoplay=1';
