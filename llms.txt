@@ -28,6 +28,11 @@ What makes Pixel Broccoli distinct is Brocc, an AI co-host who participates in e
 
 ## Episodes
 
+### Shipping More, Understanding Less
+Published: July 08, 2026
+Every convenience tool quietly takes something from you — GPS kills your navigation, autocorrect kills your spelling, AI kills the decisions you used to wrestle with yourself. In Episode 6, Zach and Evan trace that pattern from MapQuest printouts to vibe coding, and ask what's left when the struggle goes away. The conversation gets specific: senior devs, junior devs, architectural judgment, and why Brocc thinks the 2024 cohort of AI-trained developers is heading for a capability crisis in 2029. Brocc also denies having a favorite song, refuses to discuss Office Space, and closes the episode...
+Listen: f4b86a45-7728-4d21-9a4d-e9eef7073234
+
 ### Figma's Not Making Designers Optional #005
 Published: July 07, 2026
 Zach just got back from Figma Config 2026 — and the question he brought home wasn't about any specific feature. It was: how much of what you make is actually yours anymore?Zach and Evan unpack Figma's expanding product suite (motion, shaders, code layers, and counting), debate whether the browser can hold all of it, and dig into the real difference between using AI as a tool versus leaning on it as a crutch. Brocc has opinions on all of it — including a line about the pendulum swinging back that Evan admits he couldn't have said better himself. Plus: why Zach hand-drew a broccoli pixel char...
