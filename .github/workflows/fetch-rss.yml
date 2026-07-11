@@ -117,7 +117,7 @@ jobs:
               'embedUrl':   f'https://www.youtube.com/embed/{vid}?rel=0',
               'thumbnail':  f'https://i.ytimg.com/vi/{vid}/hqdefault.jpg',
             }
-            for i, vid in enumerate(ch_video_ids[:3])
+            for i, vid in enumerate(ch_video_ids[:4])
           ]
 
           out = {'feed': feed, 'items': items, 'highlights': highlights}
