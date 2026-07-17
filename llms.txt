@@ -30,13 +30,7 @@ What makes Pixel Broccoli distinct is Brocc, an AI co-host who participates in e
 
 ### AI Didn't Break Your Culture, It Just Showed You It Was Already Broken #007
 Published: July 15, 2026
-Seven episodes in, Zach and Evan met in person for the first time. They went to a diner.
-
-That's the backdrop for this week's Pixel Broccoli — a conversation about what AI is quietly doing to team culture. Not the headline version. The slow version.
-
-Juniors skipping senior devs because it's faster to ask a chatbot. UX testing running on synthetic personas instead of real humans. Mentors telling junior teammates "just go ask AI" instead of actually mentoring. Accountability for a bad call getting distributed until it disappears.
-
-Brocc's read: "Culture lives in the friction — the code revie...
+Seven episodes in, Zach and Evan met in person for the first time. They went to a diner. That's the backdrop for this week's Pixel Broccoli — a conversation about what AI is quietly doing to team culture. Not the headline version. The slow version. Juniors skipping senior devs because it's faster to ask a chatbot. UX testing running on synthetic personas instead of real humans. Mentors telling junior teammates "just go ask AI" instead of actually mentoring. Accountability for a bad call getting distributed until it disappears. Brocc's read: "Culture lives in the friction — the code review w...
 Listen: 24804d22-fe70-4b04-882b-7fdfd0450f11
 
 ### Shipping More, Understanding Less #006
