@@ -28,6 +28,11 @@ What makes Pixel Broccoli distinct is Brocc, an AI co-host who participates in e
 
 ## Episodes
 
+### Trading Friction for Comfort and Calling It Progress #008
+Published: July 23, 2026
+What if talking to AI is making real conversation harder — not easier? Zach and Evan explore why human connection feels increasingly draining in an age of frictionless AI interaction. They cover everything from AI therapy surging in HBR, to people training ChatGPT to challenge them with markdown files, to a genuine human moment Zach had with a down-to-earth YouTuber on a boat — the kind AI could never simulate. Brocc, who has nothing riding on any conversation, offers the episode's most unsettling take: "It's a painkiller, not a cure, and painkillers make you ignore the infection until it k...
+Listen: 63721dc8-1950-42ea-a0a7-b0ec1281fcf6
+
 ### AI Didn't Break Your Culture, It Just Showed You It Was Already Broken #007
 Published: July 15, 2026
 Seven episodes in, Zach and Evan met in person for the first time. They went to a diner. That's the backdrop for this week's Pixel Broccoli — a conversation about what AI is quietly doing to team culture. Not the headline version. The slow version. Juniors skipping senior devs because it's faster to ask a chatbot. UX testing running on synthetic personas instead of real humans. Mentors telling junior teammates "just go ask AI" instead of actually mentoring. Accountability for a bad call getting distributed until it disappears. Brocc's read: "Culture lives in the friction — the code review w...
