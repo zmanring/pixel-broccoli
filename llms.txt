@@ -28,6 +28,15 @@ What makes Pixel Broccoli distinct is Brocc, an AI co-host who participates in e
 
 ## Episodes
 
+### AI Fatigue Is Real — And the Experts Are Just As Lost As You #009
+Published: July 29, 2026
+Nobody's told you the right way to use AI — because nobody knows yet. And the people writing those confident LinkedIn posts? Also guessing.
+
+This week, Zach and Evan dig into the exhausting feeling of never being caught up: on tools, on models, on skills, on everything. They get into AI tool FOMO, what happens when PMs try to ship full products without design or dev foundations, why the "2-3X productivity" expectation is starting to feel like pressure instead of progress, and whether the whole thing is just the blind leading the blind.
+
+Brocc weighs in with his best line of the season — and...
+Listen: ac1d5bc5-d239-49f6-855b-333f96d4f691
+
 ### Trading Friction for Comfort and Calling It Progress #008
 Published: July 23, 2026
 What if talking to AI is making real conversation harder — not easier? Zach and Evan explore why human connection feels increasingly draining in an age of frictionless AI interaction. They cover everything from AI therapy surging in HBR, to people training ChatGPT to challenge them with markdown files, to a genuine human moment Zach had with a down-to-earth YouTuber on a boat — the kind AI could never simulate. Brocc, who has nothing riding on any conversation, offers the episode's most unsettling take: "It's a painkiller, not a cure, and painkillers make you ignore the infection until it k...
